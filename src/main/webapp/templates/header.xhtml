@@ -55,7 +55,12 @@
                     	
                     <ul class="nav navbar-nav navbar-right">
 	                    <li>
-	                    	<a href="#" data-toggle="tooltip" data-placement="bottom" title="Finalizar a sessão">
+	                    	<a href="#" 
+	                    		data-toggle="tooltip" 
+	                    		data-placement="bottom" 
+	                    		title="Finalizar a sessão"
+	                    		jsf:id="cmdLogout" 
+	                    		jsf:action="#{mbAcesso.encerrarSessao}">
 	                    		<span class="glyphicon glyphicon-off" aria-hidden="true" ></span>
 	                    		sair
 	                    	</a>

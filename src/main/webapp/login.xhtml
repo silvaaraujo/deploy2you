@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html lang="en"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	<head jsf:id="acessoHead">
+		<meta charset="utf-8" />
+	 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	  	<title>Acesso</title>
+	 	
+	 	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+        <h:outputStylesheet name="css/dashboard.css" />
+        <h:outputStylesheet name="css/signin.css" />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" />
+        <h:outputScript name="bootstrap/js/bootstrap.js" />
+	</head>
+
+	<body jsf:id="acessoBody">
+	 
+		<div class="container">
+		
+			<form jsf:id="acessoForm" jsf:prependId="false" class="form-signin">
+			
+				<h2 class="form-signin-heading">Acesso</h2>
+				<label for="login" class="sr-only">Usuário</label> 
+				<input id="login" 
+					type="text" 
+					class="form-control"
+					placeholder="Usuário"
+					jsf:id="txtUsuario"
+					jsf:value="#{mbAcesso.user}" />
+			
+				<label for="inputPassword" class="sr-only">Senha</label>
+				<input id="inputPassword"
+					type="password"  
+					class="form-control"
+					placeholder="Senha"
+					jsf:id="txtPass"
+					jsf:value="#{mbAcesso.password}" />
+			
+				<button 
+					class="btn btn-lg btn-primary btn-block" 
+					type="submit"
+					jsf:id="btnLogar"
+					jsf:action="#{mbAcesso.logar}">
+					Logar
+				</button>
+				
+			</form>
+		</div>
+	 
+	</body>
+	
+</html>

@@ -15,7 +15,7 @@
 	<navigation-rule>
     	<navigation-case>
     		<from-outcome>home</from-outcome>
-    		<to-view-id>/index.xhtml</to-view-id>
+    		<to-view-id>/pages/index.xhtml</to-view-id>
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
@@ -23,7 +23,7 @@
 	<navigation-rule>
     	<navigation-case>
     		<from-outcome>index</from-outcome>
-    		<to-view-id>/index.xhtml</to-view-id>
+    		<to-view-id>/pages/index.xhtml</to-view-id>
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
@@ -48,6 +48,14 @@
     	<navigation-case>
     		<from-outcome>underconstruction</from-outcome>
     		<to-view-id>/pages/underconstruction.xhtml</to-view-id>
+    		<redirect/>
+    	</navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+    	<navigation-case>
+    		<from-outcome>logar</from-outcome>
+    		<to-view-id>/login.xhtml</to-view-id>
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
