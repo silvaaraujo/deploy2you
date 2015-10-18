@@ -6,7 +6,7 @@ Publicador automatizado usando Docker para criação dos ambientes
 /
 - As configurações serão persistidas no banco de dados NoSql MongoDB.
 
-- Tecnologias que serão utilizadas para realização deste projeto. <br />
+- Tecnologias que serão utilizadas para realização deste projeto:
 <lu>
 	<li>Java 7</li>
 	<li>JSF 2.2.7</li>
