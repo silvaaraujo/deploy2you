@@ -7,9 +7,11 @@ Publicador automatizado usando Docker para criação dos ambientes
 - As configurações serão persistidas no banco de dados NoSql MongoDB.
 
 - Tecnologias que serão utilizadas para realização deste projeto. <br />
--> Java 7
--> JSF 2.2.7
--> PrimeFaces 5.2
--> Bootstrap 3.3.1
--> MongoDB
--> Docker
+<lu>
+	<li>Java 7</li>
+	<li>JSF 2.2.7</li>
+	<li>PrimeFaces 5.2</li>
+	<li>Bootstrap 3.3.1</li>
+	<li>MongoDB</li>
+	<li>Docker</li>
+</lu>
