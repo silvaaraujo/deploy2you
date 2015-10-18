@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+	xmlns:h="http://java.sun.com/jsf/html"  
+ 	xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   	template="/templates/main.xhtml">
+   	
+    <ui:define name="content">                        
+        <h1 class="page-header"> 
+        	<i class="fa fa-tachometer" /> 
+        	Dashboard
+        </h1>
+        <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
+        	<table class="table table-striped">
+        		<tr>
+        			<td>Ações</td>
+        			<td>Data</td>
+        			<td>Usuário</td>
+        			<td>URL</td>
+        			<td>Tag</td>
+        		</tr>
+        		<ui:repeat var="e" value="#{mbDashboard.publicacoes}">
+        			<tr>
+        				<td>
+        					<a href="#" jsf:id="commandLink" jsf:action="#{mbDashboard.remover(e)}">
+	        					<span class="glyphicon glyphicon-remove" aria-hidden="true" />
+	                    	</a>
+	                    </td>
+        				<td>#{e.data}</td>
+        				<td>#{e.user}</td>
+        				<td>#{e.url}</td>
+        				<td>#{e.tag}</td>
+        			</tr>
+        		</ui:repeat>
+        	</table>
+        </form>
+    </ui:define>
+    
+</ui:composition>

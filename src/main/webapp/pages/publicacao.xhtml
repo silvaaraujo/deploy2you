@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+	xmlns:h="http://java.sun.com/jsf/html"  
+ 	xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+   	template="/templates/main.xhtml">
+   	
+    <ui:define name="content">                        
+        <h1 class="page-header"> 
+        	<i class="fa fa-tachometer" /> 
+        	Publicação
+        </h1>
+        
+        <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
+        	<div class="form-group">
+        		<label for="txtBranch" class="col-sm-1 control-label">Branch:</label>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe a branch" 
+			    		jsf:id="txtBranch"
+			    		jsf:value="#{mbPublicacao.branch}" />
+			    </div>
+        	</div>
+        	
+        	<input class="btn btn-primary col-sm-1 col-sm-offset-11" 
+        		type="submit" 
+        		value="Publicar" 
+        		jsf:id="btnPublicar" 
+        		jsf:action="#{mbPublicacao.publicar}" />
+        		
+        </form>
+    </ui:define>
+</ui:composition>
