@@ -9,7 +9,7 @@ public class Projeto implements Serializable {
 	private Long id;
 	private String nome;
 	private String repositorioGit;
-	private String nomeImagemDocker;
+	private String nomeImagemDocker; 
 
 	public Projeto() {
 		super();
