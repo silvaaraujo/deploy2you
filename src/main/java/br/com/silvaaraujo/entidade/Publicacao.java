@@ -2,12 +2,13 @@ package br.com.silvaaraujo.entidade;
 
 import java.io.Serializable;
 import java.util.Date;
+import org.bson.types.ObjectId;
 
 public class Publicacao implements Serializable {
 	
 	private static final long serialVersionUID = -8931803415817527307L;
 	
-	private Long id;
+	private ObjectId id;
 	private Date data;
 	private String user;
 	private String url;
@@ -20,14 +21,14 @@ public class Publicacao implements Serializable {
 		super();
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
-
+	
 	public Date getData() {
 		return data;
 	}
@@ -88,7 +89,7 @@ public class Publicacao implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -101,12 +102,11 @@ public class Publicacao implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Publicacao other = (Publicacao) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}
-	
 }
