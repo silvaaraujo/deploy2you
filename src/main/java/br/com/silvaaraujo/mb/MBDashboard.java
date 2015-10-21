@@ -9,6 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.bson.types.ObjectId;
+
 import br.com.silvaaraujo.entidade.Publicacao;
 
 @ViewScoped
@@ -39,7 +41,6 @@ public class MBDashboard implements Serializable {
 		Publicacao p = null;
 		for (int i = 1; i <= 10; i++) {
 			p = new Publicacao();
-			p.setId(Long.valueOf(i));
 			p.setData(new Date());
 			p.setTag("1.0.0 - " + i);
 			p.setUrl("http://localhost:8080");
