@@ -26,10 +26,14 @@ public class MBDashboard implements Serializable {
 
 	public List<Publicacao> getPublicacoes() {
 		if (publicacoes.isEmpty()) {
-			PublicacaoDAO publicacaoDao = new PublicacaoDAO();
-			this.publicacoes.addAll(publicacaoDao.findAll());
+			pesquisarPublicacoes();
 		}
 		return publicacoes;
+	}
+
+	private void pesquisarPublicacoes() {
+		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
+		this.publicacoes.addAll(publicacaoDao.findAll());
 	}
 
 	public void setPublicacoes(List<Publicacao> publicacoes) {
@@ -38,5 +42,10 @@ public class MBDashboard implements Serializable {
 
 	public void remover(Publicacao o) {
 		System.out.println("removendo tag " + o.getTag());
+		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
+		publicacaoDao.removeById(o.getId());
+		
+		this.publicacoes = new ArrayList<>();
+		pesquisarPublicacoes();
 	}
 }
