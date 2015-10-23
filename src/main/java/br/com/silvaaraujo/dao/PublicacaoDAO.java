@@ -83,8 +83,8 @@ public class PublicacaoDAO {
 		
 	}
 	
-	public void removeById(String id) {
-		publicacaoCollection.remove(new BasicDBObject("_id",new ObjectId(id)));
+	public void removeById(ObjectId id) {
+		publicacaoCollection.remove(new BasicDBObject("_id", id));
 		
 	}
 	

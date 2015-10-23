@@ -2,15 +2,13 @@ package br.com.silvaaraujo.mb;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.bson.types.ObjectId;
-
+import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
 
 @ViewScoped
@@ -28,29 +26,26 @@ public class MBDashboard implements Serializable {
 
 	public List<Publicacao> getPublicacoes() {
 		if (publicacoes.isEmpty()) {
-			initPublicacoes();
+			pesquisarPublicacoes();
 		}
 		return publicacoes;
+	}
+
+	private void pesquisarPublicacoes() {
+		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
+		this.publicacoes.addAll(publicacaoDao.findAll());
 	}
 
 	public void setPublicacoes(List<Publicacao> publicacoes) {
 		this.publicacoes = publicacoes;
 	}
 
-	private void initPublicacoes() {
-		Publicacao p = null;
-		for (int i = 1; i <= 10; i++) {
-			p = new Publicacao();
-			p.setData(new Date());
-			p.setTag("1.0.0 - " + i);
-			p.setUrl("http://localhost:8080");
-			p.setUser("Usuario - " + i);
-			this.publicacoes.add(p);
-			p = null;
-		}
-	}
-	
 	public void remover(Publicacao o) {
 		System.out.println("removendo tag " + o.getTag());
+		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
+		publicacaoDao.removeById(o.getId());
+		
+		this.publicacoes = new ArrayList<>();
+		pesquisarPublicacoes();
 	}
 }
