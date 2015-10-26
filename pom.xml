@@ -13,24 +13,28 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javax.faces-impl.version>2.2.7</javax.faces-impl.version>
+        <primefaces.version>5.3</primefaces.version>
+        <javaee.web.api.version>7.0</javaee.web.api.version>
+        <mongo.java.driver.version>3.0.3</mongo.java.driver.version>
     </properties>
     
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
+            <version>${javaee.web.api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>  
             <groupId>org.primefaces</groupId>  
             <artifactId>primefaces</artifactId>  
-            <version>5.0</version>
+            <version>${primefaces.version}</version>
         </dependency> 
         <dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.10.1</version>
+			<version>${mongo.java.driver.version}</version>
+			<scope>provided</scope>
 		</dependency>        
     </dependencies>
 
