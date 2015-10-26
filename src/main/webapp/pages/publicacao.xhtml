@@ -21,7 +21,18 @@
 			    		placeholder="Informe a branch" 
 			    		autofocus="true"
 			    		jsf:id="txtBranch"
-			    		jsf:value="#{mbPublicacao.branch}" />
+			    		jsf:value="#{mbPublicacao.publicacao.branch}" />
+			    </div>
+        	</div>
+        	<div class="form-group">
+        		<label for="txtTag" class="col-sm-1 control-label">Tag:</label>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe a tag" 
+			    		autofocus="true"
+			    		jsf:id="txtTag"
+			    		jsf:value="#{mbPublicacao.publicacao.tag}" />
 			    </div>
         	</div>
         	
