@@ -20,7 +20,7 @@ import com.mongodb.ServerAddress;
 
 public class PublicacaoDAO {
 	
-	private final String host = "localhost";
+	private final String host = "192.168.2.18";
 	private final int port = 27017;
 	private final String database = "deploy2you";
 	private final String collection = "publicacao";
