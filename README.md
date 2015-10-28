@@ -18,8 +18,8 @@ Publicador automatizado usando Docker para criação dos ambientes
 
 # Dockerizando o ambiente:
 
-- Iniciando o container do MongoDB, informe o ip do host ao realizar o binding das portas como no exemplo
+- Iniciando o container do MongoDB, informe o ip do host ao realizar o binding das portas como no exemplo: <br />
 docker run --name db -d -p 192.168.2.18:27017:27017 -v $HOME/docker/databases/mongodb/:/data/db mongo
 
-- Iniciando o container do glassfish
+- Iniciando o container do glassfish: <br />
 docker run --name glassfish -d -p 4848:4848 -p 8080:8080 --link db:mongo glassfish/mongo
