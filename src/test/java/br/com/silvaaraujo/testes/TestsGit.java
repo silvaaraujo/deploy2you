@@ -1,6 +1,12 @@
 package br.com.silvaaraujo.testes;
 
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -15,6 +21,9 @@ public class TestsGit {
 	@Test
 	public void createRepositoryTest() throws GitAPIException {
 		try  {
+			if (Files.exists(Paths.get("/home/thiago/temp/deploy2you"))){
+				deleteDir("/home/thiago/temp/deploy2you");
+			}
 			new GitUtils().cloneRepository("https://github.com/silvaaraujo/deploy2you.git", "/home/thiago/temp/deploy2you");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -22,6 +31,23 @@ public class TestsGit {
 		}
 	}
 	
+	private void deleteDir(String path) throws IOException {
+		Path directory = Paths.get(path);
+		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				Files.delete(file);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				Files.delete(dir);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+	}
+
 	@Test
 	public void getRepositoryTest() throws GitAPIException {
 		try (Repository repo = new GitUtils().getRepository("/home/thiago/temp/deploy2you/.git")) { 
