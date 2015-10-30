@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.PullCommand;
@@ -21,12 +22,11 @@ public class GitUtils {
 			.build();
 	}
 	
-	public void pull(Repository repository) {
+	public void pull(Repository repository) throws GitAPIException {
 		try (Git git = new Git(repository)) {
 			PullCommand pull = git.pull();
-			String remote = pull.getRemote();
+			pull.call();
 		}
-		
 	}
 	
 	public List<Ref> getTags(Repository repository) throws GitAPIException {
@@ -41,5 +41,10 @@ public class GitUtils {
 		}
 	}
 	
-	
+	public void fetch(Repository repository) throws GitAPIException {
+		try (Git git = new Git(repository)) {
+			FetchCommand fetch=git.fetch();
+		    fetch.call();
+		}
+	}
 }
