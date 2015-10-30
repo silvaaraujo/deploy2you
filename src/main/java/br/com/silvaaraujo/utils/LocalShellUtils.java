@@ -1,4 +1,4 @@
-package br.com.silvaaraujo.util;
+package br.com.silvaaraujo.utils;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class LocalShellUtil {
+public class LocalShellUtils {
 
 	public String executarComando(final String comando) throws IOException {
 		
