@@ -16,6 +16,7 @@
         <primefaces.version>5.3</primefaces.version>
         <javaee.web.api.version>7.0</javaee.web.api.version>
         <mongo.java.driver.version>3.0.3</mongo.java.driver.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     
     <dependencies>
@@ -113,5 +114,14 @@
 		  <url>https://repo.eclipse.org/content/groups/releases/</url>
 		</repository>
     </repositories>
+    
+    <profiles>
+    	<profile>
+    		<id>test</id>
+			<properties>
+				<maven.test.skip>false</maven.test.skip>
+			</properties>
+    	</profile>
+    </profiles>
 
 </project>
