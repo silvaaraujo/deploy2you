@@ -5,17 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
 
-@ViewScoped
+@RequestScoped
 @Named("mbDashboard")
 public class MBDashboard implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private PublicacaoDAO publicacaoDAO;
 	
 	private List<Publicacao> publicacoes;
 	
@@ -32,8 +36,7 @@ public class MBDashboard implements Serializable {
 	}
 
 	private void pesquisarPublicacoes() {
-		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
-		this.publicacoes.addAll(publicacaoDao.findAll());
+		this.publicacoes.addAll(publicacaoDAO.findAll());
 	}
 
 	public void setPublicacoes(List<Publicacao> publicacoes) {
@@ -42,8 +45,7 @@ public class MBDashboard implements Serializable {
 
 	public void remover(Publicacao o) {
 		System.out.println("removendo tag " + o.getTag());
-		PublicacaoDAO publicacaoDao = new PublicacaoDAO();
-		publicacaoDao.removeById(o.getId());
+		this.publicacaoDAO.removeById(o.getId());
 		
 		this.publicacoes = new ArrayList<>();
 		pesquisarPublicacoes();

@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.bson.types.ObjectId;
 
 import br.com.silvaaraujo.entidade.Publicacao;
@@ -14,30 +17,19 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.ServerAddress;
 
 public class PublicacaoDAO {
 	
-	private final String host = "192.168.2.18";
-	private final int port = 27017;
-	private final String database = "deploy2you";
 	private final String collection = "publicacao";
-	
 	private DBCollection publicacaoCollection;
 	
-	public Mongo mongo() throws Exception {
-		MongoClient mongoClient = new MongoClient(new ServerAddress(host, port));
-		return mongoClient;
-	}
+	@Inject
+	private DB db;
 	
-	public PublicacaoDAO() {
+	@PostConstruct
+	public void init() {
 		try {
-			Mongo mongo = new Mongo(host, port);
-			DB db = mongo.getDB(database);
 			publicacaoCollection = db.getCollection(collection);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

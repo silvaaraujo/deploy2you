@@ -5,42 +5,31 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Repository;
 
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
 
-@ViewScoped
+@RequestScoped
 @Named("mbPublicacao")
 public class MBPublicacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
+	private PublicacaoDAO publicacaoDAO;
 	private Publicacao publicacao;
-	
-	private String localPath;
-	private String remotePath;
-    private Repository localRepo;
-    private Git git;
 	
 	@PostConstruct
 	public void init() {
 		publicacao = new Publicacao();
-		
 	}
 
 	public void publicar() {
 		this.criarPublicacao();
-		//verificar se existe o repositorio e caso nao existar clonar
-		//buscar a tag (git)
-		//compilar a tag (mvn)
-		//criar o container (docker/runtime)
-		//aplicar a tag (script/runtime/jenkins)
-		new PublicacaoDAO().insert(this.publicacao);
+		this.publicacaoDAO.insert(this.publicacao);
 		this.limpar();
 	}
 
@@ -53,7 +42,7 @@ public class MBPublicacao implements Serializable {
 	}
 
 	private int getPorta() {
-		List<Publicacao> list = new PublicacaoDAO().findAll();
+		List<Publicacao> list = this.publicacaoDAO.findAll();
 		int qtdPublicada = list != null ? list.size() : 0;
 		qtdPublicada++;
 		int porta = 8080+qtdPublicada;
@@ -66,10 +55,6 @@ public class MBPublicacao implements Serializable {
 
 	public Publicacao getPublicacao() {
 		return publicacao;
-	}
-	
-	public void getTag() {
-	
 	}
 	
 }

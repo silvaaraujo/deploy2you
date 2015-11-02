@@ -2,24 +2,27 @@ package br.com.silvaaraujo.entidade;
 
 import java.io.Serializable;
 
+import org.bson.types.ObjectId;
+
 public class Projeto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private ObjectId id;
 	private String nome;
 	private String repositorioGit;
-	private String nomeImagemDocker; 
+	private String nomeImagemDocker;
+	private String database;
 
 	public Projeto() {
 		super();
 	}
 
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 
@@ -45,6 +48,14 @@ public class Projeto implements Serializable {
 
 	public void setNomeImagemDocker(String nomeImagemDocker) {
 		this.nomeImagemDocker = nomeImagemDocker;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
 	}
 
 	@Override
