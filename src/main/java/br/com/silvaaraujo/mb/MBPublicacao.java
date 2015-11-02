@@ -20,7 +20,9 @@ public class MBPublicacao implements Serializable {
 	
 	@Inject
 	private PublicacaoDAO publicacaoDAO;
+	
 	private Publicacao publicacao;
+	private List<String> tags;
 	
 	@PostConstruct
 	public void init() {
@@ -56,5 +58,12 @@ public class MBPublicacao implements Serializable {
 	public Publicacao getPublicacao() {
 		return publicacao;
 	}
-	
+
+	public List<String> getTags() {
+		if (this.tags == null || this.tags.isEmpty()) {
+			
+		}
+		
+		return tags;
+	}
 }

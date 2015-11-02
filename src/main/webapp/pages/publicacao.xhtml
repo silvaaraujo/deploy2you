@@ -6,24 +6,31 @@
     xmlns:jsf="http://xmlns.jcp.org/jsf"
    	template="/templates/main.xhtml">
    	
-    <ui:define name="content">                        
+    <ui:define name="content">
+    	
         <h1 class="page-header"> 
         	<i class="fa fa-tachometer" /> 
         	Publicação
         </h1>
         
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
+        	
         	<div class="form-group">
-        		<label for="txtBranch" class="col-sm-1 control-label">Branch:</label>
-        		<div class="col-sm-11">
-			    	<input type="text" 
-			    		class="form-control" 
-			    		placeholder="Informe a branch" 
-			    		autofocus="true"
-			    		jsf:id="txtBranch"
-			    		jsf:value="#{mbPublicacao.publicacao.branch}" />
-			    </div>
+        		<label for="cmbProject" class="col-sm-1 control-label">Projeto:</label>
+		    	<div class="col-sm-11">
+		        	<select id="cmbProject" 
+		        		class="selectpicker show-tick form-control" 
+		        		multiple="true" 
+		        		data-max-options="1"
+		        		title="Selecione o projeto">
+		          		<option>Deploy2You</option>
+		          		<option>AAA</option>
+		          		<option>BBB</option>
+		          		<option>CCC</option>
+		        	</select>
+		      </div>
         	</div>
+        	
         	<div class="form-group">
         		<label for="txtTag" class="col-sm-1 control-label">Tag:</label>
         		<div class="col-sm-11">

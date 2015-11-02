@@ -21,7 +21,7 @@ import com.mongodb.DBObject;
 public class PublicacaoDAO {
 	
 	private final String collection = "publicacao";
-	private DBCollection publicacaoCollection;
+	private DBCollection dbCollection;
 	
 	@Inject
 	private DB db;
@@ -29,7 +29,7 @@ public class PublicacaoDAO {
 	@PostConstruct
 	public void init() {
 		try {
-			publicacaoCollection = db.getCollection(collection);
+			dbCollection = db.getCollection(collection);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,7 +38,7 @@ public class PublicacaoDAO {
 	public List<Publicacao> findAll() {
 		
 		List<Publicacao> listaPublicacao = new ArrayList<>();
-		DBCursor cursor = publicacaoCollection.find();
+		DBCursor cursor = dbCollection.find();
 		
 		while (cursor.hasNext()) {
 			DBObject resultElement = cursor.next();
@@ -54,7 +54,7 @@ public class PublicacaoDAO {
 
 	public Publicacao findById(String id) {
 		
-		DBObject dbObject = publicacaoCollection.findOne(new BasicDBObject("_id", new ObjectId(id)));
+		DBObject dbObject = dbCollection.findOne(new BasicDBObject("_id", new ObjectId(id)));
 		Map<?, ?> resultElementMap = dbObject.toMap();
 		
 		return recuperaPublicacaoMap(resultElementMap);
@@ -63,7 +63,7 @@ public class PublicacaoDAO {
 	public void insert(Publicacao publicacao) {
 		
 		BasicDBObject publicacaoParaGravar = criarPublicacaoParaGravar(publicacao);
-		publicacaoCollection.insert(publicacaoParaGravar);
+		dbCollection.insert(publicacaoParaGravar);
 		
 	}
 	
@@ -71,12 +71,12 @@ public class PublicacaoDAO {
 		
 		BasicDBObject publicacaoOld = new BasicDBObject("_id", publicacao.getId());
 		BasicDBObject publicacaoParaGravar = criarPublicacaoParaGravar(publicacao);
-		publicacaoCollection.update(publicacaoOld, publicacaoParaGravar,true, false);
+		dbCollection.update(publicacaoOld, publicacaoParaGravar,true, false);
 		
 	}
 	
 	public void removeById(ObjectId id) {
-		publicacaoCollection.remove(new BasicDBObject("_id", id));
+		dbCollection.remove(new BasicDBObject("_id", id));
 		
 	}
 	
