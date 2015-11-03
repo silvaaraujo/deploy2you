@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+	xmlns:h="http://java.sun.com/jsf/html"  
+ 	xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+   	template="/templates/main.xhtml">
+   	
+    <ui:define name="content">                        
+        <h1 class="page-header"> 
+        	<i class="fa fa-tachometer" /> 
+        	Projetos
+        </h1>
+        <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
+        	<table class="table table-striped">
+        		<tr>
+        			<td>Ações</td>
+        			<td>Nome</td>
+        			<td>Repositorio Git</td>
+        			<td>Imagem Docker</td>
+        		</tr>
+        		<ui:repeat var="e" value="#{mbProjeto.projetos}">
+        			<tr>
+        				<td>
+        					<a href="#" jsf:id="commandLink" jsf:action="#{mbProjeto.remover(e)}">
+	        					<span class="glyphicon glyphicon-remove" aria-hidden="true" />
+	                    	</a>
+	                    </td>
+        				<td>#{e.nome}</td>
+        				<td>#{e.repositorioGit}</td>
+        				<td>#{e.nomeImagemDocker}</td>
+        			</tr>
+        		</ui:repeat>
+        	</table>
+        	<input class="btn btn-primary col-sm-1 col-sm-offset-11" 
+        		type="submit" 
+        		value="Novo" 
+        		jsf:id="btnNovoProjeto" 
+        		jsf:action="#{mbProjeto.novo}" />
+        </form>
+    </ui:define>
+    
+</ui:composition>
