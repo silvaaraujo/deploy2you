@@ -46,8 +46,16 @@
     
     <navigation-rule>
     	<navigation-case>
-    		<from-outcome>underconstruction</from-outcome>
-    		<to-view-id>/pages/underconstruction.xhtml</to-view-id>
+    		<from-outcome>projetos</from-outcome>
+    		<to-view-id>/pages/listaprojetos.xhtml</to-view-id>
+    		<redirect/>
+    	</navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+    	<navigation-case>
+    		<from-outcome>cadastrarprojeto</from-outcome>
+    		<to-view-id>/pages/cadastroprojeto.xhtml</to-view-id>
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
@@ -59,5 +67,5 @@
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
-    	
+    
 </faces-config>

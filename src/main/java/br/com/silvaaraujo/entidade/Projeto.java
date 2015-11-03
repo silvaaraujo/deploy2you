@@ -12,7 +12,6 @@ public class Projeto implements Serializable {
 	private String nome;
 	private String repositorioGit;
 	private String nomeImagemDocker;
-	private String database;
 
 	public Projeto() {
 		super();
@@ -48,14 +47,6 @@ public class Projeto implements Serializable {
 
 	public void setNomeImagemDocker(String nomeImagemDocker) {
 		this.nomeImagemDocker = nomeImagemDocker;
-	}
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
 	}
 
 	@Override
