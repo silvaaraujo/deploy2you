@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+	xmlns:h="http://java.sun.com/jsf/html"  
+ 	xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+   	template="/templates/main.xhtml">
+   	
+    <ui:define name="content">                        
+        <h1 class="page-header"> 
+        	<i class="fa fa-tachometer" /> 
+        	Cadastro de Projeto
+        </h1>
+        
+        <form jsf:id="formProjeto" jsf:prependId="false" class="form-horizontal">
+        
+        	<div class="form-group">
+        		<label for="txtNomeProjeto" class="col-sm-1 control-label">Nome:</label>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe o projeto" 
+			    		autofocus="true"
+			    		jsf:id="txtNomeProjeto"
+			    		jsf:value="#{mbProjeto.projeto.nome}" />
+			    </div>
+        	</div>
+        	
+        	<div class="form-group">
+        		<label for="txtRepositorioGit" class="col-sm-1 control-label">Repositório Git:</label>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe o repositório do git" 
+			    		jsf:id="txtRepositorioGit"
+			    		jsf:value="#{mbProjeto.projeto.repositorioGit}" />
+			    </div>
+        	</div>
+        	
+        	<div class="form-group">
+        		<label for="txtImagemDocker" class="col-sm-1 control-label">Imagem Docker:</label>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe a imagem do docker" 
+			    		jsf:id="txtImagemDocker"
+			    		jsf:value="#{mbProjeto.projeto.nomeImagemDocker}" />
+			    </div>
+        	</div>
+        	
+        	<input class="btn btn-warning col-sm-1 col-sm-offset-10" 
+        		type="submit" 
+        		value="Cancelar" 
+        		jsf:id="btnCancelCadastro" 
+        		jsf:action="listaprojetos" />
+        		
+        	<input class="btn btn btn-primary col-sm-1" 
+        		type="submit" 
+        		value="Cadastrar" 
+        		jsf:id="btnCadastrarProjeto" 
+        		jsf:action="#{mbProjeto.gravar}" />
+        </form>
+    </ui:define>
+</ui:composition>
