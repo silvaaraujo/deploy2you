@@ -1,7 +1,9 @@
 package br.com.silvaaraujo.entidade;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.bson.types.ObjectId;
 
 public class Publicacao implements Serializable {
@@ -85,6 +87,13 @@ public class Publicacao implements Serializable {
 		this.ativo = ativo;
 	}
 
+	public String getDataFormatada() {
+		if (this.data != null) {
+			return SimpleDateFormat.getDateInstance().format(this.getData());
+		}
+		return "";
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
