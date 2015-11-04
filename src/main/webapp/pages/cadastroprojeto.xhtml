@@ -48,17 +48,22 @@
 			    </div>
         	</div>
         	
-        	<input class="btn btn-warning col-sm-1 col-sm-offset-10" 
-        		type="submit" 
-        		value="Cancelar" 
-        		jsf:id="btnCancelCadastro" 
-        		jsf:action="listaprojetos" />
-        		
-        	<input class="btn btn btn-primary col-sm-1" 
-        		type="submit" 
-        		value="Cadastrar" 
-        		jsf:id="btnCadastrarProjeto" 
-        		jsf:action="#{mbProjeto.gravar}" />
+        	<div id="botoes" class="clearfix pull-right">
+        	
+	        	<input class="btn btn-warning"
+	        		type="submit"
+	        		style="margin-right: 5px;" 
+	        		value="Cancelar" 
+	        		jsf:id="btnCancelCadastro" 
+	        		jsf:action="listaprojetos" />
+        	
+	        	<input class="btn btn btn-primary" 
+	        		type="submit" 
+	        		value="Cadastrar" 
+	        		jsf:id="btnCadastrarProjeto" 
+	        		jsf:action="#{mbProjeto.gravar}" />
+	        		
+        	</div>
         </form>
     </ui:define>
 </ui:composition>

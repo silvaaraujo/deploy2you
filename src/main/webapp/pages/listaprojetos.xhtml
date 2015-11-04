@@ -33,11 +33,14 @@
         			</tr>
         		</ui:repeat>
         	</table>
-        	<input class="btn btn-primary col-sm-1 col-sm-offset-11" 
-        		type="submit" 
-        		value="Novo" 
-        		jsf:id="btnNovoProjeto" 
-        		jsf:action="#{mbProjeto.novo}" />
+        	
+        	<div id="botoes" class="clearfix pull-right">
+	        	<input class="btn btn-primary" 
+	        		type="submit" 
+	        		value="Novo" 
+	        		jsf:id="btnNovoProjeto" 
+	        		jsf:action="#{mbProjeto.novo}" />
+        	</div>
         </form>
     </ui:define>
     
