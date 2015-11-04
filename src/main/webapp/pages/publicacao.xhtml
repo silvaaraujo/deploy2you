@@ -23,10 +23,9 @@
 		        		multiple="true" 
 		        		data-max-options="1"
 		        		title="Selecione o projeto">
-		          		<option>Deploy2You</option>
-		          		<option>AAA</option>
-		          		<option>BBB</option>
-		          		<option>CCC</option>
+		        		<ui:repeat var="e" value="#{mbPublicacao.projetos}">
+		          			<option value="#{e.id}">#{e.nome}</option>
+		        		</ui:repeat>
 		        	</select>
 		      </div>
         	</div>

@@ -1,6 +1,7 @@
 package br.com.silvaaraujo.mb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
+import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.entidade.Publicacao;
 
 @RequestScoped
@@ -21,12 +24,19 @@ public class MBPublicacao implements Serializable {
 	@Inject
 	private PublicacaoDAO publicacaoDAO;
 	
+	@Inject
+	private ProjetoDAO projetoDAO;
+	
 	private Publicacao publicacao;
+	
+	private List<Projeto> projetos;
 	private List<String> tags;
 	
 	@PostConstruct
 	public void init() {
 		publicacao = new Publicacao();
+		this.projetos = new ArrayList<>();
+		this.tags = new ArrayList<>();
 	}
 
 	public void publicar() {
@@ -59,11 +69,18 @@ public class MBPublicacao implements Serializable {
 		return publicacao;
 	}
 
+	//TODO
 	public List<String> getTags() {
 		if (this.tags == null || this.tags.isEmpty()) {
 			
 		}
-		
 		return tags;
+	}
+	
+	public List<Projeto> getProjetos() {
+		if (this.projetos == null || this.projetos.isEmpty()) {
+			 this.projetos.addAll(this.projetoDAO.findAll());
+		}
+		return projetos;
 	}
 }
