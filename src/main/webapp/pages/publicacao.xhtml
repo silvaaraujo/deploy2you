@@ -22,6 +22,7 @@
 		        		class="selectpicker show-tick form-control" 
 		        		multiple="true" 
 		        		data-max-options="1"
+		        		onchange="listarTags();"
 		        		title="Selecione o projeto">
 		        		<ui:repeat var="e" value="#{mbPublicacao.projetos}">
 		          			<option value="#{e.id}">#{e.nome}</option>
@@ -49,7 +50,21 @@
 	        		jsf:id="btnPublicar" 
 	        		jsf:action="#{mbPublicacao.publicar}" />
         	</div>
-        		
+        	
+        	<script type="text/javascript">
+        		function listarTags() {
+        			var id = document.getElementById("cmbProject").value;
+			    	alert("projeto: "+id);
+			    	$.ajax({
+	       	             type: "GET",
+	       	             dataType: "json",
+	       	             url: "http://localhost:8080/deploy2you/resources/manterPublicacao/tags/",
+	       	             success: function(data) {
+	       	                alert(data);
+	       	             }
+	       	        });
+        		};
+			</script>
         </form>
     </ui:define>
 </ui:composition>

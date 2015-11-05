@@ -47,17 +47,19 @@ public class GitUtils {
 
 	/**
 	 * Retrieve the remote tags. <br />
-	 * @param repository is a instance of org.eclipse.jgit.lib.Repository. 
+	 * @param repository is the path of repository. 
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> getTags(Repository repository) throws Exception {
+	public List<String> getTags(String repository) throws Exception {
 		List<String> tags = new ArrayList<>();
-		try (Git git = new Git(repository)) {
-			Collection<Ref> advertisedRefs = git.pull().call().getFetchResult().getAdvertisedRefs();
-			for (Ref ref : advertisedRefs) {
-				if (ref.getName().contains("refs/tags/")) {
-					tags.add(ref.getName().substring(10));
+		try (Repository repo = this.getRepository(repository)) {
+			try (Git git = new Git(repo)) {
+				Collection<Ref> advertisedRefs = git.pull().call().getFetchResult().getAdvertisedRefs();
+				for (Ref ref : advertisedRefs) {
+					if (ref.getName().contains("refs/tags/")) {
+						tags.add(ref.getName().substring(10));
+					}
 				}
 			}
 		}
@@ -70,18 +72,19 @@ public class GitUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> getBranches(Repository repository) throws Exception {
+	public List<String> getBranches(String repository) throws Exception {
 		List<String> branches = new ArrayList<>();
-		try (Git git = new Git(repository)) {
-			Collection<Ref> advertisedRefs = git.pull().call().getFetchResult().getAdvertisedRefs();
-			for (Ref ref : advertisedRefs) {
-				if (ref.getName().contains("refs/heads/")) {
-					branches.add(ref.getName().substring(11));
+		try (Repository repo = this.getRepository(repository)) {
+			try (Git git = new Git(repo)) {
+				Collection<Ref> advertisedRefs = git.pull().call().getFetchResult().getAdvertisedRefs();
+				for (Ref ref : advertisedRefs) {
+					if (ref.getName().contains("refs/heads/")) {
+						branches.add(ref.getName().substring(11));
+					}
 				}
 			}
 		}
 		return branches;
 	}
-	
 	
 }

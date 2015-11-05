@@ -18,7 +18,7 @@ import br.com.silvaaraujo.utils.GitUtils;
 
 public class TestsGit {
 
-	@Test
+	//@Test
 	public void createRepositoryTest() throws GitAPIException {
 		try  {
 			if (Files.exists(Paths.get("/home/thiago/temp/deploy2you"))){
@@ -48,7 +48,7 @@ public class TestsGit {
 		});
 	}
 
-	@Test
+	//@Test
 	public void getRepositoryTest() throws GitAPIException {
 		try (Repository repo = new GitUtils().getRepository("/home/thiago/temp/deploy2you/.git")) { 
 			Assert.assertNotNull(repo);
@@ -58,30 +58,26 @@ public class TestsGit {
 		}
 	}
 
-	@Test
+	//@Test
 	public void getBranchesTest() throws GitAPIException {
-		try (Repository repo = new GitUtils().getRepository("/home/thiago/temp/deploy2you/.git")) { 
-			Assert.assertNotNull(repo);
-			
+		try { 
+			String repo = "/home/thiago/temp/deploy2you/.git";
 			List<String> refs = new GitUtils().getBranches(repo);
 			Assert.assertNotNull(refs);
 			Assert.assertTrue(refs.size() > 0);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testListarTags() throws GitAPIException {
-		try (Repository repo = new GitUtils().getRepository("/home/thiago/temp/deploy2you/.git")) { 
-			Assert.assertNotNull(repo);
-
+		try { 
+			String repo = "/home/thiago/temp/deploy2you/.git";
 			List<String> refs = new GitUtils().getTags(repo);
 			Assert.assertNotNull(refs);
 			Assert.assertTrue(refs.size() > 0);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

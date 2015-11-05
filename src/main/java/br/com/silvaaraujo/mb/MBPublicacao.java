@@ -9,14 +9,20 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.entidade.Publicacao;
+import br.com.silvaaraujo.utils.GitUtils;
 
 @RequestScoped
 @Named("mbPublicacao")
+@Path("/manterPublicacao")
 public class MBPublicacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +32,9 @@ public class MBPublicacao implements Serializable {
 	
 	@Inject
 	private ProjetoDAO projetoDAO;
+	
+	@Inject
+	private GitUtils gitUtils;
 	
 	private Publicacao publicacao;
 	
@@ -69,12 +78,26 @@ public class MBPublicacao implements Serializable {
 		return publicacao;
 	}
 
-	//TODO
-	public List<String> getTags() {
-		if (this.tags == null || this.tags.isEmpty()) {
-			
+	@GET
+	@Path("tags")
+	public Response getTags(@PathParam("projetoId") String projetoId) {
+		this.tags = new ArrayList<>();
+		if (projetoId == null || projetoId.trim().isEmpty()) {
+			return Response.ok().build();
 		}
-		return tags;
+		
+		Projeto projeto = this.projetoDAO.findById("563ac57f01bf5d4fb58c0198");
+		try {
+			this.tags = this.gitUtils.getTags(projeto.getRepositorioGit());
+			if (this.tags == null || this.tags.isEmpty()) {
+				this.tags = new ArrayList<>();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+		
+		return Response.ok().build();
 	}
 	
 	public List<Projeto> getProjetos() {
@@ -83,4 +106,5 @@ public class MBPublicacao implements Serializable {
 		}
 		return projetos;
 	}
+	
 }
