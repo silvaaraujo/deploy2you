@@ -6,11 +6,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 public class TesteWs {
 
-	@Test
+	//@Test
 	public void testaAdicionaPos() {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:8080/deploy2you/resources");

@@ -11,14 +11,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.entidade.Publicacao;
 import br.com.silvaaraujo.utils.GitUtils;
+import br.com.silvaaraujo.utils.Tags;
 
 @RequestScoped
 @Named("mbPublicacao")
@@ -39,13 +41,11 @@ public class MBPublicacao implements Serializable {
 	private Publicacao publicacao;
 	
 	private List<Projeto> projetos;
-	private List<String> tags;
 	
 	@PostConstruct
 	public void init() {
 		publicacao = new Publicacao();
 		this.projetos = new ArrayList<>();
-		this.tags = new ArrayList<>();
 	}
 
 	public void publicar() {
@@ -80,24 +80,32 @@ public class MBPublicacao implements Serializable {
 
 	@GET
 	@Path("tags")
-	public Response getTags(@QueryParam("projetoId") String projetoId) {
-		this.tags = new ArrayList<>();
+	@Produces({ MediaType.APPLICATION_JSON})
+	public Tags getTags(@QueryParam("projetoId") String projetoId) {
+
 		if (projetoId == null || projetoId.trim().isEmpty()) {
-			return Response.ok().build();
+			return new Tags();
 		}
 		
 		Projeto projeto = this.projetoDAO.findById(projetoId);
+		List<String> lista = null;
+		
 		try {
-			this.tags = this.gitUtils.getTags(projeto.getRepositorioGit());
-			if (this.tags == null || this.tags.isEmpty()) {
-				this.tags = new ArrayList<>();
+			lista = this.gitUtils.getTags(projeto.getRepositorioGit());
+			if (lista == null || lista.isEmpty()) {
+				return new Tags();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.serverError().build();
+			return new Tags();
 		}
 		
-		return Response.ok().build();
+		Tags tags = new Tags();
+		for (String s : lista) {
+			tags.getTag().add(s);
+		}
+		
+		return tags;
 	}
 	
 	public List<Projeto> getProjetos() {

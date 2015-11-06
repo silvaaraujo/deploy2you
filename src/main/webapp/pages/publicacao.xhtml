@@ -33,13 +33,13 @@
         	
         	<div class="form-group">
         		<label for="txtTag" class="col-sm-1 control-label">Tag:</label>
-        		<div class="col-sm-11">
-			    	<input type="text" 
-			    		class="form-control" 
-			    		placeholder="Informe a tag" 
-			    		autofocus="true"
-			    		jsf:id="txtTag"
-			    		jsf:value="#{mbPublicacao.publicacao.tag}" />
+        		<div id="dvComboTag" class="col-sm-11">
+        			<select 
+		        		class="cmbTags selectpicker show-tick form-control" 
+		        		multiple="true" 
+		        		data-max-options="1"
+		        		title="Selecione a tag">
+		        	</select>
 			    </div>
         	</div>
         	
@@ -59,10 +59,19 @@
 	       	             dataType: "json",
 	       	             url: "http://localhost:8080/deploy2you/resources/manterPublicacao/tags?projetoId="+id,
 	       	             success: function(data) {
-	       	                alert(data);
+	       	            	renderList(data);
 	       	             }
 	       	        });
         		};
+        		
+        		function renderList(data) {
+        			$.each(data, function (i, tag) {
+        				$('#cmbTags').append($('<option>', { 
+        			        value: tag,
+        			        label : tag 
+        			    },'</option>'));
+        			});
+        		}
 			</script>
         </form>
     </ui:define>
