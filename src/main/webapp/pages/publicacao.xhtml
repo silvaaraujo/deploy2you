@@ -54,11 +54,10 @@
         	<script type="text/javascript">
         		function listarTags() {
         			var id = document.getElementById("cmbProject").value;
-			    	alert("projeto: "+id);
 			    	$.ajax({
 	       	             type: "GET",
 	       	             dataType: "json",
-	       	             url: "http://localhost:8080/deploy2you/resources/manterPublicacao/tags/",
+	       	             url: "http://localhost:8080/deploy2you/resources/manterPublicacao/tags?projetoId="+id,
 	       	             success: function(data) {
 	       	                alert(data);
 	       	             }

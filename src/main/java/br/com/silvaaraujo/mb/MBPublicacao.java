@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
@@ -80,13 +80,13 @@ public class MBPublicacao implements Serializable {
 
 	@GET
 	@Path("tags")
-	public Response getTags(@PathParam("projetoId") String projetoId) {
+	public Response getTags(@QueryParam("projetoId") String projetoId) {
 		this.tags = new ArrayList<>();
 		if (projetoId == null || projetoId.trim().isEmpty()) {
 			return Response.ok().build();
 		}
 		
-		Projeto projeto = this.projetoDAO.findById("563ac57f01bf5d4fb58c0198");
+		Projeto projeto = this.projetoDAO.findById(projetoId);
 		try {
 			this.tags = this.gitUtils.getTags(projeto.getRepositorioGit());
 			if (this.tags == null || this.tags.isEmpty()) {
