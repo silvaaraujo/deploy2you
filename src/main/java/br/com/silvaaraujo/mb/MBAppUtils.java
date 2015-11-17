@@ -1,7 +1,6 @@
 package br.com.silvaaraujo.mb;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
@@ -12,7 +11,6 @@ import com.mongodb.Mongo;
 @Named("mbAppUtils")
 public class MBAppUtils {
 
-	@Default
 	private DB db;
 	
 	@Produces

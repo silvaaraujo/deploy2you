@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
 import org.bson.types.ObjectId;
@@ -17,6 +18,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+@Model
 public class ProjetoDAO {
 	
 	private final String collection = "projeto";

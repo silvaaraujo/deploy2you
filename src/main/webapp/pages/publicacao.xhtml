@@ -15,6 +15,10 @@
         
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         	
+        	<p:remoteCommand id="rmcPub" 
+        		name="rmChanged"
+        		action="#{mbPublicacao.projetoChanged}" />
+        	
         	<div class="form-group">
         		<label for="cmbProject" class="col-sm-1 control-label">Projeto:</label>
 		    	<div class="col-sm-11">
@@ -22,7 +26,7 @@
 		        		class="selectpicker show-tick form-control" 
 		        		multiple="true" 
 		        		data-max-options="1"
-		        		onchange="listarTags();"
+		        		onchange="projectChanged()"
 		        		title="Selecione o projeto">
 		        		<ui:repeat var="e" value="#{mbPublicacao.projetos}">
 		          			<option value="#{e.id}">#{e.nome}</option>
@@ -33,13 +37,12 @@
         	
         	<div class="form-group">
         		<label for="txtTag" class="col-sm-1 control-label">Tag:</label>
-        		<div id="dvComboTag" class="col-sm-11">
-        			<select 
-		        		class="cmbTags selectpicker show-tick form-control" 
-		        		multiple="true" 
-		        		data-max-options="1"
-		        		title="Selecione a tag">
-		        	</select>
+        		<div class="col-sm-11">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe a tag" 
+			    		jsf:id="txtTag"
+			    		jsf:value="#{mbPublicacao.publicacao.tag}" />
 			    </div>
         	</div>
         	
@@ -52,27 +55,12 @@
         	</div>
         	
         	<script type="text/javascript">
-        		function listarTags() {
+        		function projectChanged() {
         			var id = document.getElementById("cmbProject").value;
-			    	$.ajax({
-	       	             type: "GET",
-	       	             dataType: "json",
-	       	             url: "http://localhost:8080/deploy2you/resources/manterPublicacao/tags?projetoId="+id,
-	       	             success: function(data) {
-	       	            	renderList(data);
-	       	             }
-	       	        });
+        			rmChanged([{name:'id', value:id}]);
         		};
-        		
-        		function renderList(data) {
-        			$.each(data, function (i, tag) {
-        				$('#cmbTags').append($('<option>', { 
-        			        value: tag,
-        			        label : tag 
-        			    },'</option>'));
-        			});
-        		}
 			</script>
+        	
         </form>
     </ui:define>
 </ui:composition>
