@@ -13,6 +13,7 @@
 
 	<!-- REGRAS DE NAVEGACAO -->
 	<navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>home</from-outcome>
     		<to-view-id>/pages/index.xhtml</to-view-id>
@@ -21,6 +22,7 @@
     </navigation-rule>
     
 	<navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>index</from-outcome>
     		<to-view-id>/pages/index.xhtml</to-view-id>
@@ -29,6 +31,7 @@
     </navigation-rule>
     
     <navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>dashboard</from-outcome>
     		<to-view-id>/pages/dashboard.xhtml</to-view-id>
@@ -37,6 +40,7 @@
     </navigation-rule>
     
     <navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>publicacao</from-outcome>
     		<to-view-id>/pages/publicacao.xhtml</to-view-id>
@@ -45,6 +49,7 @@
     </navigation-rule>
     
     <navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>projetos</from-outcome>
     		<to-view-id>/pages/listaprojetos.xhtml</to-view-id>
@@ -53,6 +58,7 @@
     </navigation-rule>
     
     <navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>cadastrarprojeto</from-outcome>
     		<to-view-id>/pages/cadastroprojeto.xhtml</to-view-id>
@@ -61,9 +67,19 @@
     </navigation-rule>
     
     <navigation-rule>
+    	<from-view-id>*</from-view-id>
     	<navigation-case>
     		<from-outcome>logar</from-outcome>
     		<to-view-id>/login.xhtml</to-view-id>
+    		<redirect/>
+    	</navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+    	<from-view-id>*</from-view-id>
+    	<navigation-case>
+    		<from-outcome>configuracao</from-outcome>
+    		<to-view-id>/pages/configuracao.xhtml</to-view-id>
     		<redirect/>
     	</navigation-case>
     </navigation-rule>
