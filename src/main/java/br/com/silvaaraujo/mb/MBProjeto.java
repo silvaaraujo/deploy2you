@@ -1,6 +1,8 @@
 package br.com.silvaaraujo.mb;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import javax.inject.Named;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.entidade.Projeto;
+import br.com.silvaaraujo.utils.FileUtils;
+import br.com.silvaaraujo.utils.GitUtils;
 
 @RequestScoped
 @Named("mbProjeto")
@@ -20,6 +24,12 @@ public class MBProjeto implements Serializable {
 	
 	@Inject
 	private ProjetoDAO projetoDAO;
+	
+	@Inject
+	private FileUtils fileUtils;
+	
+	@Inject
+	private GitUtils gitUtils;
 	
 	private Projeto projeto;
 	private List<Projeto> projetos = null;
@@ -32,7 +42,21 @@ public class MBProjeto implements Serializable {
 	
 	public void gravar() {
 		this.projetoDAO.insert(this.projeto);
+		cloneRepository();
 		this.limpar();
+	}
+	
+	public void cloneRepository() {
+		try {
+			if (fileUtils.getExisteDiretorio(this.projeto.getDiretorio())) {
+				fileUtils.deleteDir(this.projeto.getDiretorio());
+			}
+			
+			gitUtils.cloneRepository(this.projeto.getRepositorioGit(), this.getProjeto().getDiretorio());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void limpar() {
