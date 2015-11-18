@@ -12,7 +12,6 @@ public class Projeto implements Serializable {
 	private String nome;
 	private String repositorioGit;
 	private String nomeImagemDocker;
-	private String diretorio;
 
 	public Projeto() {
 		super();
@@ -73,14 +72,6 @@ public class Projeto implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public String getDiretorio() {
-		return diretorio;
-	}
-
-	public void setDiretorio(String diretorio) {
-		this.diretorio = diretorio;
 	}
 
 }

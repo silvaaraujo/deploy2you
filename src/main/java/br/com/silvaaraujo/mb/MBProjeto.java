@@ -11,7 +11,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.silvaaraujo.dao.ConfiguracaoDAO;
 import br.com.silvaaraujo.dao.ProjetoDAO;
+import br.com.silvaaraujo.entidade.Configuracao;
 import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.utils.FileUtils;
 import br.com.silvaaraujo.utils.GitUtils;
@@ -24,6 +26,9 @@ public class MBProjeto implements Serializable {
 	
 	@Inject
 	private ProjetoDAO projetoDAO;
+	
+	@Inject
+	private ConfiguracaoDAO configuracaoDAO;
 	
 	@Inject
 	private FileUtils fileUtils;
@@ -48,11 +53,16 @@ public class MBProjeto implements Serializable {
 	
 	public void cloneRepository() {
 		try {
-			if (fileUtils.getExisteDiretorio(this.projeto.getDiretorio())) {
-				fileUtils.deleteDir(this.projeto.getDiretorio());
+			
+			Configuracao conf = configuracaoDAO.buscarConfiguracao();
+			String diretorioProjeto = conf.getDiretorioBase().concat("/")
+					.concat(this.projeto.getNome().toLowerCase());
+			
+			if (fileUtils.getExisteDiretorio(diretorioProjeto)) {
+				fileUtils.deleteDir(diretorioProjeto);
 			}
 			
-			gitUtils.cloneRepository(this.projeto.getRepositorioGit(), this.getProjeto().getDiretorio());
+			gitUtils.cloneRepository(this.projeto.getRepositorioGit(), diretorioProjeto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
