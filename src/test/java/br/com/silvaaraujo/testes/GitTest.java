@@ -7,16 +7,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Assert;
 import org.junit.Test;
 
 import br.com.silvaaraujo.utils.GitUtils;
 
-public class TestsGit {
+public class GitTest {
 
 	//@Test
 	public void createRepositoryTest() throws GitAPIException {
@@ -82,6 +88,36 @@ public class TestsGit {
 			e.printStackTrace();
 			Assert.fail();
 		}
+	}
+	
+	@Test
+	public void getTagsWithoutLocalRepo() {
+
+		String remote_url = "http://source.redetendencia.com.br/web/sgv.git";
+		//String remote_url = "https://github.com/silvaaraujo/deploy2you.git";
+		
+		Collection<Ref> refs = null;
+		try {
+			refs = Git.lsRemoteRepository()
+            	.setHeads(false)
+                .setTags(true)
+                .setRemote(remote_url)
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider("user", "password"))
+                .call();
+		} catch (InvalidRemoteException e) {
+			e.printStackTrace();
+			Assert.fail();
+		} catch (TransportException e) {
+			e.printStackTrace();
+			Assert.fail();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+        for (Ref ref : refs) {
+            System.out.println(ref.getName().substring(10));
+        }
 	}
 	
 }
