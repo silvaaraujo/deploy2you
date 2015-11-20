@@ -13,8 +13,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
+import br.com.silvaaraujo.dao.ConfiguracaoDAO;
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
+import br.com.silvaaraujo.entidade.Configuracao;
 import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.entidade.Publicacao;
 import br.com.silvaaraujo.utils.GitUtils;
@@ -31,6 +33,9 @@ public class MBPublicacao implements Serializable {
 	
 	@Inject
 	private ProjetoDAO projetoDAO;
+	
+	@Inject
+	private ConfiguracaoDAO configuracaoDAO;
 	
 	@Inject
 	private GitUtils gitUtils;
@@ -157,18 +162,27 @@ public class MBPublicacao implements Serializable {
 	public boolean validarTag() {
 
 		Projeto projeto = this.projetoDAO.findById(this.projectId);
-		List<String> lista = null;
+		Configuracao configuracao = this.configuracaoDAO.buscarConfiguracao();
 		
+		if (projeto == null || configuracao == null) {
+			return false;
+		}
+		
+		List<String> tags = null;
 		try {
-			lista = this.gitUtils.getTags(projeto.getRepositorioGit());
-			if (lista == null || lista.isEmpty()) {
+			 tags = this.gitUtils.getRemoteTags(projeto.getRepositorioGit(), 
+														configuracao.getUsuarioGit(), 
+														configuracao.getPasswordUsuarioGit());
+		
+			if (tags == null || tags.isEmpty()) {
 				return false;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		
-		return lista.contains(this.publicacao.getTag());
+		return tags.contains(this.publicacao.getTag());
 	}
 }

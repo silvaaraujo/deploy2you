@@ -15,6 +15,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 @Model
 public class GitUtils {
@@ -47,9 +48,39 @@ public class GitUtils {
 			.setGitDir(new File(repository))
 			.build();
 	}
-
+	
 	/**
 	 * Retrieve the remote tags. <br />
+	 * @param repository is the path of repository. 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<String> getRemoteTags(String remoteUrl, String usuarioGit, String passwordUsuarioGit) {
+		Collection<Ref> refs = null;
+		try {
+			refs = Git.lsRemoteRepository()
+            	.setHeads(false)
+                .setTags(true)
+                .setRemote(remoteUrl)
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(usuarioGit, passwordUsuarioGit))
+                .call();
+		} catch (InvalidRemoteException e) {
+			e.printStackTrace();
+		} catch (TransportException e) {
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
+
+		List<String> result = new ArrayList<>();
+        for (Ref ref : refs) {
+            result.add(ref.getName().substring(10));
+        }
+		return result;
+	}
+
+	/**
+	 * Retrieve the local tags. <br />
 	 * @param repository is the path of repository. 
 	 * @return
 	 * @throws Exception
@@ -68,6 +99,8 @@ public class GitUtils {
 		}
 		return tags;
 	}
+	
+	
 	
 	/**
 	 * Retrieve the remote branches. <br />
@@ -89,5 +122,5 @@ public class GitUtils {
 		}
 		return branches;
 	}
-	
+
 }

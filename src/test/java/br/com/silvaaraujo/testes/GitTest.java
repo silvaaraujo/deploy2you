@@ -18,7 +18,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Assert;
-import org.junit.Test;
 
 import br.com.silvaaraujo.utils.GitUtils;
 
@@ -90,11 +89,11 @@ public class GitTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void getTagsWithoutLocalRepo() {
 
-		String remote_url = "http://source.redetendencia.com.br/web/sgv.git";
-		//String remote_url = "https://github.com/silvaaraujo/deploy2you.git";
+		//String remote_url = "http://source.redetendencia.com.br/web/sgv.git";
+		String remote_url = "https://github.com/silvaaraujo/deploy2you.git";
 		
 		Collection<Ref> refs = null;
 		try {

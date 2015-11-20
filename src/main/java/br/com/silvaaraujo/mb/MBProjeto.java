@@ -1,24 +1,22 @@
 package br.com.silvaaraujo.mb;
 
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.silvaaraujo.dao.ConfiguracaoDAO;
-import br.com.silvaaraujo.dao.ProjetoDAO;
-import br.com.silvaaraujo.entidade.Configuracao;
-import br.com.silvaaraujo.entidade.Projeto;
-import br.com.silvaaraujo.utils.FileUtils;
-import br.com.silvaaraujo.utils.GitUtils;
+import org.bson.types.ObjectId;
 
-@RequestScoped
+import br.com.silvaaraujo.dao.ProjetoDAO;
+import br.com.silvaaraujo.entidade.Projeto;
+
+@ViewScoped
 @Named("mbProjeto")
 public class MBProjeto implements Serializable {
 
@@ -27,17 +25,10 @@ public class MBProjeto implements Serializable {
 	@Inject
 	private ProjetoDAO projetoDAO;
 	
-	@Inject
-	private ConfiguracaoDAO configuracaoDAO;
-	
-	@Inject
-	private FileUtils fileUtils;
-	
-	@Inject
-	private GitUtils gitUtils;
-	
 	private Projeto projeto;
 	private List<Projeto> projetos = null;
+
+	private String projetoId;
 	
 	@PostConstruct
 	public void init() {
@@ -47,40 +38,29 @@ public class MBProjeto implements Serializable {
 	
 	public void gravar() {
 		this.projetoDAO.insert(this.projeto);
-		cloneRepository();
 		this.limpar();
 	}
 	
-	public void cloneRepository() {
-		try {
-			
-			Configuracao conf = configuracaoDAO.buscarConfiguracao();
-			String diretorioProjeto = conf.getDiretorioBase().concat("/")
-					.concat(this.projeto.getNome().toLowerCase());
-			
-			if (fileUtils.getExisteDiretorio(diretorioProjeto)) {
-				fileUtils.deleteDir(diretorioProjeto);
-			}
-			
-			gitUtils.cloneRepository(this.projeto.getRepositorioGit(), diretorioProjeto);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void limpar() {
+	public void limpar() {
 		this.projeto = new Projeto();
 	}
 
 	public Projeto getProjeto() {
 		return projeto;
 	}
+	
+	public void setProjetoId() {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String x = String.valueOf(params.get("id"));
+		this.projetoId = x;
+	}
 
-	public void remover(Projeto o) {
-		System.out.println("Removendo o projeto " + o.getNome());
-		this.projetoDAO.removeById(o.getId());
-		
+	public void remover() {
+		if (this.projetoId == null) {
+			return;
+		}
+
+		this.projetoDAO.removeById(new ObjectId(this.projetoId));
 		this.projetos = new ArrayList<>();
 		pesquisarProjetos();
 	}
