@@ -17,7 +17,7 @@
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         
  	        <p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbProjeto.setProjetoId}" />
-           	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbProjeto.remover}" update="@form" onsuccess="alerta.show('Projeto removido com sucesso!');" />
+           	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbProjeto.remover}" update="@form" onsuccess="alerta.sucesso('Projeto removido com sucesso!');" />
            	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbProjeto.limpar}" />
         
         	<!-- Modal -->
