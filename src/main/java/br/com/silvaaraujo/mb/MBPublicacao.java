@@ -3,7 +3,6 @@ package br.com.silvaaraujo.mb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,21 +13,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
-import com.spotify.docker.client.DefaultDockerClient;
-import com.spotify.docker.client.DockerCertificateException;
-import com.spotify.docker.client.DockerClient;
-import com.spotify.docker.client.DockerException;
-import com.spotify.docker.client.messages.ContainerConfig;
-import com.spotify.docker.client.messages.ContainerCreation;
-import com.spotify.docker.client.messages.HostConfig;
-import com.spotify.docker.client.messages.PortBinding;
-
 import br.com.silvaaraujo.dao.ConfiguracaoDAO;
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Configuracao;
 import br.com.silvaaraujo.entidade.Projeto;
 import br.com.silvaaraujo.entidade.Publicacao;
+import br.com.silvaaraujo.utils.DockerUtils;
 import br.com.silvaaraujo.utils.GitUtils;
 
 @ViewScoped
@@ -50,6 +41,9 @@ public class MBPublicacao implements Serializable {
 	@Inject
 	private GitUtils gitUtils;
 	
+	@Inject
+	private DockerUtils dockerUtils;
+	
 	private Publicacao publicacao;
 	
 	private List<Projeto> projetos;
@@ -68,57 +62,15 @@ public class MBPublicacao implements Serializable {
 			return;
 		}
 		
-		this.criarPublicacao();
-		this.initContainer();
+		int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
+		criarPublicacao(totalPublicacaoStart);
+		createContainer(totalPublicacaoStart, this.publicacao.getContainer());
 		this.publicacaoDAO.insert(this.publicacao);
 		this.limpar();
 	}
-
-	public void initContainer() {
-		DockerClient docker = null;
-		try {
-			docker = DefaultDockerClient.fromEnv().build();
-			HostConfig hostConfig = bindPortsContainer();
-
-			String idContainer = createContainer(docker);
-		
-			// Start container
-			docker.startContainer(idContainer, hostConfig);
-		} catch (DockerCertificateException | DockerException | InterruptedException  e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public String createContainer(DockerClient docker) {
-		try {
-			String[] ports = {"4848", "8080"};
-			ContainerConfig containerConfig = ContainerConfig.builder()
-				    .image("glassfish").exposedPorts(ports)				    
-				    .build();
-			ContainerCreation creation = docker.createContainer(containerConfig);
-			String id = creation.id();
-			return id;
-				
-		} catch (DockerException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		return "";
-	}
-	
-	public HostConfig bindPortsContainer() {
-		// Bind container ports to host ports
-		String[] ports = {"4848", "8080"};
-		Map<String, List<PortBinding>> portBindings = new HashMap<String, List<PortBinding>>();
-		for (String port : ports) {
-		    List<PortBinding> hostPorts = new ArrayList<PortBinding>();
-		    Integer portFinal = Integer.valueOf(port) + 10;
-		    hostPorts.add(PortBinding.of("0.0.0.0", portFinal.toString()));
-		    portBindings.put(port, hostPorts);
-		}
-		
-		HostConfig hostConfig = HostConfig.builder().portBindings(portBindings).build();
-		return hostConfig;
+	public void createContainer(int totalPublicacaoStart, String nameContainer) {
+		this.dockerUtils.createContainer(totalPublicacaoStart, nameContainer);
 	}
 
 	private boolean validar() {
@@ -137,7 +89,7 @@ public class MBPublicacao implements Serializable {
 		return true;
 	}
 
-	private void criarPublicacao() {
+	private void criarPublicacao(int totalPublicacaoStart) {
 		Projeto p = this.projetoDAO.findById(this.projectId);
 
 		if (p == null) {
@@ -149,6 +101,7 @@ public class MBPublicacao implements Serializable {
 		this.publicacao.setProjeto(p.getNome());
 		this.publicacao.setUrl("localhost:"+getPorta()+"/"+p.getNome());
 		this.publicacao.setUser("admin");
+		this.publicacao.setContainer(p.getNomeImagemDocker() + "-" + totalPublicacaoStart);
 	}
 	
 	private int getPorta() {

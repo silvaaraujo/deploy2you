@@ -62,6 +62,11 @@ public class PublicacaoDAO {
 		return recuperaPublicacaoMap(resultElementMap);
 	}
 	
+	public int countPublicacao() {
+		int dbObject = dbCollection.find().count();
+		return dbObject;
+	}
+	
 	public void insert(Publicacao publicacao) {
 		
 		BasicDBObject publicacaoParaGravar = criarPublicacaoParaGravar(publicacao);

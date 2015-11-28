@@ -17,6 +17,7 @@ public class Publicacao implements Serializable {
 	private String projeto;
 	private String branch;
 	private String tag;
+	private String container;
 	private Boolean ativo;
 
 	public Publicacao() {
@@ -117,5 +118,13 @@ public class Publicacao implements Serializable {
 		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
+	}
+
+	public String getContainer() {
+		return container;
+	}
+
+	public void setContainer(String container) {
+		this.container = container;
 	}
 }
