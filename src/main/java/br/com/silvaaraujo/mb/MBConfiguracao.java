@@ -31,6 +31,7 @@ public class MBConfiguracao implements Serializable {
 			return;
 		}
 		this.configuracaoDAO.insert(this.configuracao);
+		this.limpar();
 	}
 
 	public Configuracao getConfiguracao() {
@@ -46,6 +47,7 @@ public class MBConfiguracao implements Serializable {
 	}
 	
 	public void limpar() {
+		this.configuracao = null;
 		this.getConfiguracao();
 	}
 

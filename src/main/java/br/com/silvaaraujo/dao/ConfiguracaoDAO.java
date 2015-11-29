@@ -56,7 +56,20 @@ public class ConfiguracaoDAO {
 	}
 	
 	public void insert(Configuracao configuracao) {
-		dbCollection.insert(this.getBasicDBOjectFromEntity(configuracao));
+		BasicDBObject novaConfig = this.getBasicDBOjectFromEntity(configuracao);
+		
+		if (configuracao.getId() == null) {
+			this.dbCollection.insert(novaConfig);
+			return;
+		}
+		
+		BasicDBObject searchObj = new BasicDBObject().append("_id", configuracao.getId());
+		if (searchObj == null) {
+			//deve lançar exceção e mostrar o erro ao usuario.
+			return;
+		}
+		
+		this.dbCollection.update(searchObj, novaConfig);
 	}
 
 	public void update(Configuracao configuracao) {
