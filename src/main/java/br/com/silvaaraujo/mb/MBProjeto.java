@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.bson.types.ObjectId;
+import org.primefaces.context.RequestContext;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.entidade.Projeto;
@@ -37,8 +38,16 @@ public class MBProjeto implements Serializable {
 	}
 	
 	public void gravar() {
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		
+		if (!validar(ctx)) {
+			return;
+		}
+		
 		this.projetoDAO.insert(this.projeto);
 		this.limpar();
+		
+		ctx.execute("alerta.sucesso('Projeto gravado com sucesso!');");
 	}
 	
 	public void limpar() {
@@ -81,5 +90,31 @@ public class MBProjeto implements Serializable {
 	public String novo() {
 		this.limpar();
 		return "cadastrarprojeto";
+	}
+	
+	private boolean validar(RequestContext ctx) {
+		Boolean valido = Boolean.TRUE;
+		
+		if (this.projeto == null) {
+			ctx.execute("alerta.erro('Projeto nulo, favor informar a administração do sistema.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getNome() == null || "".equals(this.projeto.getNome().trim())) {
+			ctx.execute("alerta.erro('O nome do projeto é obrigatório.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getRepositorioGit() == null || "".equals(this.projeto.getRepositorioGit().trim())) {
+			ctx.execute("alerta.erro('O repositório git é obrigatorio.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getNomeImagemDocker() == null || "".equals(this.projeto.getNomeImagemDocker().trim())) {
+			ctx.execute("alerta.erro('A imagem docker é obrigatoria.');");
+			valido = Boolean.FALSE;
+		}
+		
+		return valido;
 	}
 }

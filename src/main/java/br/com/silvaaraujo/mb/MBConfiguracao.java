@@ -67,17 +67,17 @@ public class MBConfiguracao implements Serializable {
 		}
 		
 		if (this.configuracao.getDiretorioBase() == null || "".equals(this.configuracao.getDiretorioBase().trim())) {
-			ctx.execute("alerta.erro('Informe o diretório base.');");
+			ctx.execute("alerta.erro('O diretório base é obrigatório.');");
 			valido = Boolean.FALSE;
 		}
 		
 		if (this.configuracao.getUsuarioGit() == null || "".equals(this.configuracao.getUsuarioGit().trim())) {
-			ctx.execute("alerta.erro('Informe o usuário do git.');");
+			ctx.execute("alerta.erro('O usuário git é obrigatório.');");
 			valido = Boolean.FALSE;
 		}
 		
 		if (this.configuracao.getPasswordUsuarioGit() == null || "".equals(this.configuracao.getPasswordUsuarioGit().trim())) {
-			ctx.execute("alerta.erro('Informe o password do usuário git.');");
+			ctx.execute("alerta.erro('O password do usuário git é obrigatório.');");
 			valido = Boolean.FALSE;
 		}
 		
