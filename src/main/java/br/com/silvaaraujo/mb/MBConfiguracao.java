@@ -7,6 +7,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.silvaaraujo.dao.ConfiguracaoDAO;
 import br.com.silvaaraujo.entidade.Configuracao;
 
@@ -27,11 +29,16 @@ public class MBConfiguracao implements Serializable {
 	}
 	
 	public void gravar() {
-		if (!validar()) {
+		RequestContext ctx = RequestContext.getCurrentInstance();
+		
+		if (!validar(ctx)) {
 			return;
 		}
+		
 		this.configuracaoDAO.insert(this.configuracao);
 		this.limpar();
+		
+		ctx.execute("alerta.sucesso('Configuração gravada com sucesso!');");
 	}
 
 	public Configuracao getConfiguracao() {
@@ -51,19 +58,29 @@ public class MBConfiguracao implements Serializable {
 		this.getConfiguracao();
 	}
 
-	private boolean validar() {
+	private boolean validar(RequestContext ctx) {
+		Boolean valido = Boolean.TRUE;
+		
 		if (this.configuracao == null) {
-			return false;
+			ctx.execute("alerta.erro('Configuração não encontrada, favor informar a administração do sistema.');");
+			valido = Boolean.FALSE;
 		}
 		
 		if (this.configuracao.getDiretorioBase() == null || "".equals(this.configuracao.getDiretorioBase().trim())) {
-			return false;
+			ctx.execute("alerta.erro('Informe o diretório base.');");
+			valido = Boolean.FALSE;
 		}
 		
 		if (this.configuracao.getUsuarioGit() == null || "".equals(this.configuracao.getUsuarioGit().trim())) {
-			return false;
+			ctx.execute("alerta.erro('Informe o usuário do git.');");
+			valido = Boolean.FALSE;
 		}
 		
-		return true;
+		if (this.configuracao.getPasswordUsuarioGit() == null || "".equals(this.configuracao.getPasswordUsuarioGit().trim())) {
+			ctx.execute("alerta.erro('Informe o password do usuário git.');");
+			valido = Boolean.FALSE;
+		}
+		
+		return valido;
 	}
 }
