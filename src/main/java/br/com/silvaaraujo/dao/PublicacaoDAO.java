@@ -38,7 +38,6 @@ public class PublicacaoDAO {
 	}
 	
 	public List<Publicacao> findAll() {
-		
 		List<Publicacao> listaPublicacao = new ArrayList<>();
 		DBCursor cursor = dbCollection.find();
 		
@@ -55,10 +54,8 @@ public class PublicacaoDAO {
 	}
 
 	public Publicacao findById(String id) {
-		
 		DBObject dbObject = dbCollection.findOne(new BasicDBObject("_id", new ObjectId(id)));
 		Map<?, ?> resultElementMap = dbObject.toMap();
-		
 		return recuperaPublicacaoMap(resultElementMap);
 	}
 	
@@ -68,27 +65,21 @@ public class PublicacaoDAO {
 	}
 	
 	public void insert(Publicacao publicacao) {
-		
 		BasicDBObject publicacaoParaGravar = criarPublicacaoParaGravar(publicacao);
 		dbCollection.insert(publicacaoParaGravar);
-		
 	}
 	
 	public void update(Publicacao publicacao) {
-		
 		BasicDBObject publicacaoOld = new BasicDBObject("_id", publicacao.getId());
 		BasicDBObject publicacaoParaGravar = criarPublicacaoParaGravar(publicacao);
 		dbCollection.update(publicacaoOld, publicacaoParaGravar,true, false);
-		
 	}
 	
 	public void removeById(ObjectId id) {
 		dbCollection.remove(new BasicDBObject("_id", id));
-		
 	}
 	
 	public BasicDBObject criarPublicacaoParaGravar(Publicacao publicacao) {
-		
 		BasicDBObject publicacaoParaGravar = new BasicDBObject();
 		publicacaoParaGravar.append("projeto", publicacao.getProjeto());
 		publicacaoParaGravar.append("tag", publicacao.getTag());
@@ -97,14 +88,11 @@ public class PublicacaoDAO {
 		publicacaoParaGravar.append("ativo", publicacao.getAtivo());
 		publicacaoParaGravar.append("branch", publicacao.getBranch());
 		publicacaoParaGravar.append("data", publicacao.getData());
-		
 		return publicacaoParaGravar;
 	}
 	
 	private Publicacao recuperaPublicacaoMap(Map<?, ?> resultElementMap) {
-		
 		Publicacao publicacao = new Publicacao();
-		
 		publicacao.setId((ObjectId) resultElementMap.get("_id"));
 		publicacao.setProjeto((String) resultElementMap.get("projeto"));
 		publicacao.setTag((String) resultElementMap.get("tag"));
@@ -113,7 +101,6 @@ public class PublicacaoDAO {
 		publicacao.setAtivo((Boolean) resultElementMap.get("ativo"));
 		publicacao.setBranch((String) resultElementMap.get("branch"));
 		publicacao.setData((Date) resultElementMap.get("data"));
-		
 		return publicacao;
 	}
 }

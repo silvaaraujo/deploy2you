@@ -3,16 +3,20 @@ package br.com.silvaaraujo.mb;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.bson.types.ObjectId;
 
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
 
-@RequestScoped
+@ViewScoped
 @Named("mbDashboard")
 public class MBDashboard implements Serializable {
 
@@ -22,6 +26,7 @@ public class MBDashboard implements Serializable {
 	private PublicacaoDAO publicacaoDAO;
 	
 	private List<Publicacao> publicacoes;
+	private String publicacaoId;
 	
 	@PostConstruct
 	public void init() {
@@ -43,11 +48,24 @@ public class MBDashboard implements Serializable {
 		this.publicacoes = publicacoes;
 	}
 
-	public void remover(Publicacao o) {
-		System.out.println("removendo tag " + o.getTag());
-		this.publicacaoDAO.removeById(o.getId());
+	public void setPublicacaoId() {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String x = String.valueOf(params.get("id"));
+		this.publicacaoId = x;
+	}
+	
+	public void remover() {
+		if(this.publicacaoId == null) {
+			//nunca deve acontecer
+			return;
+		}
 		
+		this.publicacaoDAO.removeById(new ObjectId(this.publicacaoId));
+		limpar();
+	}
+	
+	public void limpar() {
+		this.publicacaoId = null;
 		this.publicacoes = new ArrayList<>();
-		pesquisarPublicacoes();
 	}
 }

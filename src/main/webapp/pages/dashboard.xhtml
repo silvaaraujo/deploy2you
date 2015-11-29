@@ -13,6 +13,11 @@
         	Dashboard
         </h1>
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
+        	
+        	<p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbDashboard.setPublicacaoId}" />
+           	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbDashboard.remover}" update="@form" onsuccess="alerta.sucesso('Publicação removida com sucesso!');" />
+           	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbDashboard.limpar}" />
+        
         	<table class="table table-striped">
         		<tr>
         			<td>Ações</td>
@@ -24,10 +29,16 @@
         		<ui:repeat var="e" value="#{mbDashboard.publicacoes}">
         			<tr>
         				<td>
-        					<a href="#" jsf:id="commandLink" jsf:action="#{mbDashboard.remover(e)}">
-	        					<span class="glyphicon glyphicon-remove" aria-hidden="true" />
-	                    	</a>
+		                    <button 
+        						type="button" 
+        						class="btn btn-default"
+        						data-toggle="modal"
+        						data-target="#dlgRemocao"
+        						onclick="setIdRemover('#{e.id}')">
+        						<span class="glyphicon glyphicon-remove" aria-hidden="true" />
+        					</button>
 	                    </td>
+	                    
         				<td>#{e.dataFormatada}</td>
         				<td>#{e.user}</td>
         				<td>#{e.url}</td>
@@ -35,6 +46,43 @@
         			</tr>
         		</ui:repeat>
         	</table>
+        	
+        	<!-- Modal -->
+			<div class="modal fade" id="dlgRemocao" tabindex="-1" role="dialog" aria-labelledby="dlgRemocaoLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+			        <h4 class="modal-title" id="dlgRemocaoLabel">Confirma exclusão?</h4>
+			      </div>
+			      <div class="modal-body">
+			      	Deseja realmente excluir a publicação selecionada?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="submit" 
+			        	class="btn btn-default" 
+			        	data-dismiss="modal"
+			        	onclick="rmConfirmaLimpar();">
+        				Cancelar
+        			</button>
+        				
+			        <button type="submit" 
+			        	class="btn btn-primary"
+			        	data-dismiss="modal"
+						onclick="rmConfirmaRemover();">
+			        	Confirmar
+			        </button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<script type="text/javascript">
+				function setIdRemover(id) {
+	       			rmRemover([{name:'id', value:id}]);
+	       		}
+			</script>
+			
         </form>
     </ui:define>
     

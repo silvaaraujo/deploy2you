@@ -42,7 +42,9 @@ public class MBProjeto implements Serializable {
 	}
 	
 	public void limpar() {
+		this.projetoId = null;
 		this.projeto = new Projeto();
+		this.projetos = new ArrayList<>();		
 	}
 
 	public Projeto getProjeto() {
@@ -61,7 +63,7 @@ public class MBProjeto implements Serializable {
 		}
 
 		this.projetoDAO.removeById(new ObjectId(this.projetoId));
-		this.projetos = new ArrayList<>();
+		this.limpar();
 		pesquisarProjetos();
 	}
 
