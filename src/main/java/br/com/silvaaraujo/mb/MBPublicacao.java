@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Path;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.silvaaraujo.dao.ConfiguracaoDAO;
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.dao.PublicacaoDAO;
@@ -57,36 +59,49 @@ public class MBPublicacao implements Serializable {
 	}
 
 	public void publicar() {
+		RequestContext ctx = RequestContext.getCurrentInstance();
 		
-		if (!this.validar()) {
+		if (!this.validar(ctx)) {
 			return;
 		}
 		
-		int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
-		criarPublicacao(totalPublicacaoStart);
-		createContainer(totalPublicacaoStart, this.publicacao.getContainer());
-		this.publicacaoDAO.insert(this.publicacao);
-		this.limpar();
+		try {
+			int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
+			criarPublicacao(totalPublicacaoStart);
+			createContainer(totalPublicacaoStart, this.publicacao.getContainer());
+			
+			this.publicacaoDAO.insert(this.publicacao);
+			this.limpar();
+		} catch (Exception e) {
+			ctx.execute("alerta.erro('Erro ao efetuar publicação, favor informar a administração do sistema.');");
+			return;
+		}
+		
+		ctx.execute("alerta.sucesso('Publicação efetuada com sucesso!');");
 	}
 	
 	public void createContainer(int totalPublicacaoStart, String nameContainer) {
 		this.dockerUtils.createContainer(totalPublicacaoStart, nameContainer);
 	}
 
-	private boolean validar() {
+	private boolean validar(RequestContext ctx) {
+		Boolean valido = Boolean.TRUE;
+		
 		if (this.projectId == null || this.projectId.trim().isEmpty()) {
-			return false;
+			ctx.execute("alerta.erro('O projeto é obrigatório.');");
+			valido = Boolean.FALSE;
 		}
 
 		if (this.publicacao.getTag() == null || this.publicacao.getTag().trim().isEmpty()) {
-			return false;
-		}
-		
-		if (!this.validarTag()) {
-			return false;
+			ctx.execute("alerta.erro('A tag é obrigatória.');");
+			valido = Boolean.FALSE;
 		}
 
-		return true;
+		if (valido) {
+			valido = this.validarTag(ctx);
+		}
+
+		return valido;
 	}
 
 	private void criarPublicacao(int totalPublicacaoStart) {
@@ -165,7 +180,7 @@ public class MBPublicacao implements Serializable {
 		this.projectId = x;
 	}
 	
-	public boolean validarTag() {
+	public boolean validarTag(RequestContext ctx) {
 
 		Projeto projeto = this.projetoDAO.findById(this.projectId);
 		Configuracao configuracao = this.configuracaoDAO.buscarConfiguracao();
@@ -177,10 +192,11 @@ public class MBPublicacao implements Serializable {
 		List<String> tags = null;
 		try {
 			 tags = this.gitUtils.getRemoteTags(projeto.getRepositorioGit(), 
-														configuracao.getUsuarioGit(), 
-														configuracao.getPasswordUsuarioGit());
+												configuracao.getUsuarioGit(), 
+												configuracao.getPasswordUsuarioGit());
 		
 			if (tags == null || tags.isEmpty()) {
+				ctx.execute("alerta.erro('A tag informada não foi encontrada.');");
 				return false;
 			}
 			
@@ -189,6 +205,12 @@ public class MBPublicacao implements Serializable {
 			return false;
 		}
 		
-		return tags.contains(this.publicacao.getTag());
+		boolean contains = tags.contains(this.publicacao.getTag());
+		
+		if (!contains) {
+			ctx.execute("alerta.erro('A tag informada não foi encontrada.');");
+		}
+		
+		return contains;
 	}
 }
