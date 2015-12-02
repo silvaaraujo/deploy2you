@@ -12,6 +12,10 @@ public class Projeto implements Serializable {
 	private String nome;
 	private String repositorioGit;
 	private String nomeImagemDocker;
+	private Integer portaHttp;
+	private Integer portaHttps;
+	private Integer portaAdm;
+	private String comandoDocker;
 
 	public Projeto() {
 		super();
@@ -47,6 +51,38 @@ public class Projeto implements Serializable {
 
 	public void setNomeImagemDocker(String nomeImagemDocker) {
 		this.nomeImagemDocker = nomeImagemDocker;
+	}
+	
+	public Integer getPortaHttp() {
+		return portaHttp;
+	}
+
+	public void setPortaHttp(Integer portaHttp) {
+		this.portaHttp = portaHttp;
+	}
+
+	public Integer getPortaHttps() {
+		return portaHttps;
+	}
+
+	public void setPortaHttps(Integer portaHttps) {
+		this.portaHttps = portaHttps;
+	}
+
+	public Integer getPortaAdm() {
+		return portaAdm;
+	}
+
+	public void setPortaAdm(Integer portaAdm) {
+		this.portaAdm = portaAdm;
+	}
+
+	public String getComandoDocker() {
+		return comandoDocker;
+	}
+
+	public void setComandoDocker(String comandoDocker) {
+		this.comandoDocker = comandoDocker;
 	}
 
 	@Override

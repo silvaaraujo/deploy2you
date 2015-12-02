@@ -47,8 +47,44 @@
 			    		jsf:value="#{mbProjeto.projeto.nomeImagemDocker}" />
 			    </div>
         	</div>
-        	
-        	<div id="botoes" class="clearfix pull-right">
+
+			<div class="form-group">
+				<label for="txtPortaHttp" class="col-sm-1 control-label">Porta Http:</label>
+				<div class="col-sm-11">
+					<input type="text" class="form-control"
+						placeholder="Informe a porta http" jsf:id="txtPortaHttp"
+						jsf:value="#{mbProjeto.projeto.portaHttp}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="txtPortaHttps" class="col-sm-1 control-label">Porta Https:</label>
+				<div class="col-sm-11">
+					<input type="text" class="form-control"
+						placeholder="Informe a porta https" jsf:id="txtPortaHttps"
+						jsf:value="#{mbProjeto.projeto.portaHttps}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="txtPortaAdm" class="col-sm-1 control-label">Porta Administrativa:</label>
+				<div class="col-sm-11">
+					<input type="text" class="form-control"
+						placeholder="Informe a imagem do docker" jsf:id="txtPortaAdm"
+						jsf:value="#{mbProjeto.projeto.portaAdm}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="txtComandoDocker" class="col-sm-1 control-label">Comando Docker:</label>
+				<div class="col-sm-11">
+					<input type="text" class="form-control"
+						placeholder="Informe o comando do docker" jsf:id="txtComandoDocker"
+						jsf:value="#{mbProjeto.projeto.comandoDocker}" />
+				</div>
+			</div>
+
+			<div id="botoes" class="clearfix pull-right">
         	
 	        	<input class="btn btn-warning"
 	        		type="submit"

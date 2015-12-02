@@ -67,8 +67,9 @@ public class MBPublicacao implements Serializable {
 		
 		try {
 			int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
-			criarPublicacao(totalPublicacaoStart);
-			createContainer(totalPublicacaoStart, this.publicacao.getContainer());
+			Projeto projeto = this.projetoDAO.findById(this.projectId);
+			criarPublicacao(projeto);
+			createContainer(totalPublicacaoStart, this.publicacao.getContainer(), projeto);
 			
 			this.publicacaoDAO.insert(this.publicacao);
 			this.limpar();
@@ -80,8 +81,8 @@ public class MBPublicacao implements Serializable {
 		ctx.execute("alerta.sucesso('Publicação efetuada com sucesso!');");
 	}
 	
-	public void createContainer(int totalPublicacaoStart, String nameContainer) {
-		this.dockerUtils.createContainer(totalPublicacaoStart, nameContainer);
+	public void createContainer(int totalPublicacaoStart, String nameContainer, Projeto projeto) {
+		this.dockerUtils.createContainer(totalPublicacaoStart, nameContainer, projeto);
 	}
 
 	private boolean validar(RequestContext ctx) {
@@ -104,8 +105,7 @@ public class MBPublicacao implements Serializable {
 		return valido;
 	}
 
-	private void criarPublicacao(int totalPublicacaoStart) {
-		Projeto p = this.projetoDAO.findById(this.projectId);
+	private void criarPublicacao(Projeto p) {
 
 		if (p == null) {
 			return;
@@ -116,7 +116,7 @@ public class MBPublicacao implements Serializable {
 		this.publicacao.setProjeto(p.getNome());
 		this.publicacao.setUrl("localhost:"+getPorta()+"/"+p.getNome());
 		this.publicacao.setUser("admin");
-		this.publicacao.setContainer(p.getNomeImagemDocker() + "-" + totalPublicacaoStart);
+		this.publicacao.setContainer(p.getNomeImagemDocker() + "-" + this.publicacao.getTag());
 	}
 	
 	private int getPorta() {

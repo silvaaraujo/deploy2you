@@ -115,6 +115,26 @@ public class MBProjeto implements Serializable {
 			valido = Boolean.FALSE;
 		}
 		
+		if (this.projeto.getPortaHttp() == null) {
+			ctx.execute("alerta.erro('A porta http é obrigatoria.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getPortaHttps() == null) {
+			ctx.execute("alerta.erro('A porta https é obrigatoria.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getPortaAdm() == null) {
+			ctx.execute("alerta.erro('A porta administrativa é obrigatoria.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getComandoDocker() == null || "".equals(this.projeto.getComandoDocker().trim())) {
+			ctx.execute("alerta.erro('O comando docker é obrigatorio.');");
+			valido = Boolean.FALSE;
+		}
+		
 		return valido;
 	}
 }

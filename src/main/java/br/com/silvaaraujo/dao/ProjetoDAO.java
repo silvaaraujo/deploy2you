@@ -74,6 +74,10 @@ public class ProjetoDAO {
 		basicDBObject.append("nome", projeto.getNome());
 		basicDBObject.append("repositorioGit", projeto.getRepositorioGit());
 		basicDBObject.append("nomeImagemDocker", projeto.getNomeImagemDocker());
+		basicDBObject.append("portaHttp", projeto.getPortaHttp());
+		basicDBObject.append("portaHttps", projeto.getPortaHttps());
+		basicDBObject.append("portaAdm", projeto.getPortaAdm());
+		basicDBObject.append("comandoDocker", projeto.getComandoDocker());
 		return basicDBObject;
 	}
 	
@@ -83,6 +87,10 @@ public class ProjetoDAO {
 		p.setNome((String) resultElementMap.get("nome"));
 		p.setRepositorioGit((String) resultElementMap.get("repositorioGit"));
 		p.setNomeImagemDocker((String) resultElementMap.get("nomeImagemDocker"));
+		p.setPortaHttp((Integer) resultElementMap.get("portaHttp"));
+		p.setPortaHttps((Integer) resultElementMap.get("portaHttps"));
+		p.setPortaAdm((Integer) resultElementMap.get("portaAdm"));
+		p.setComandoDocker((String) resultElementMap.get("comandoDocker"));
 		return p;
 	}
 }
