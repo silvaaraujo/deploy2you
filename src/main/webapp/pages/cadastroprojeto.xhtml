@@ -15,8 +15,8 @@
         <form jsf:id="formProjeto" jsf:prependId="false" class="form-horizontal">
         
         	<div class="form-group">
-        		<label for="txtNomeProjeto" class="col-sm-1 control-label">Nome:</label>
-        		<div class="col-sm-11">
+        		<label for="txtNomeProjeto" class="col-sm-2 control-label">Nome:</label>
+        		<div class="col-sm-4">
 			    	<input type="text" 
 			    		class="form-control" 
 			    		placeholder="Informe o projeto" 
@@ -24,11 +24,9 @@
 			    		jsf:id="txtNomeProjeto"
 			    		jsf:value="#{mbProjeto.projeto.nome}" />
 			    </div>
-        	</div>
         	
-        	<div class="form-group">
-        		<label for="txtRepositorioGit" class="col-sm-1 control-label">Repositório Git:</label>
-        		<div class="col-sm-11">
+        		<label for="txtRepositorioGit" class="col-sm-2 control-label">Repositório Git:</label>
+        		<div class="col-sm-4">
 			    	<input type="text" 
 			    		class="form-control" 
 			    		placeholder="Informe o repositório do git" 
@@ -38,46 +36,48 @@
         	</div>
         	
         	<div class="form-group">
-        		<label for="txtImagemDocker" class="col-sm-1 control-label">Imagem Docker:</label>
-        		<div class="col-sm-11">
+        		<label for="txtImagemDocker" class="col-sm-2 control-label">Imagem Docker:</label>
+        		<div class="col-sm-4">
 			    	<input type="text" 
 			    		class="form-control" 
 			    		placeholder="Informe a imagem do docker" 
 			    		jsf:id="txtImagemDocker"
 			    		jsf:value="#{mbProjeto.projeto.nomeImagemDocker}" />
 			    </div>
-        	</div>
-
-			<div class="form-group">
-				<label for="txtPortaHttp" class="col-sm-1 control-label">Porta Http:</label>
-				<div class="col-sm-11">
-					<input type="text" class="form-control"
-						placeholder="Informe a porta http" jsf:id="txtPortaHttp"
+        	
+				<label for="txtPortaHttp" class="col-sm-2 control-label">Porta Http:</label>
+				<div class="col-sm-4">
+					<input type="text" 
+						class="form-control"
+						placeholder="Informe a porta http" 
+						jsf:id="txtPortaHttp"
 						jsf:value="#{mbProjeto.projeto.portaHttp}" />
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="txtPortaHttps" class="col-sm-1 control-label">Porta Https:</label>
-				<div class="col-sm-11">
-					<input type="text" class="form-control"
-						placeholder="Informe a porta https" jsf:id="txtPortaHttps"
+				<label for="txtPortaHttps" class="col-sm-2 control-label">Porta Https:</label>
+				<div class="col-sm-4">
+					<input type="text" 
+						class="form-control"
+						placeholder="Informe a porta https" 
+						jsf:id="txtPortaHttps"
 						jsf:value="#{mbProjeto.projeto.portaHttps}" />
 				</div>
-			</div>
 
-			<div class="form-group">
-				<label for="txtPortaAdm" class="col-sm-1 control-label">Porta Administrativa:</label>
-				<div class="col-sm-11">
-					<input type="text" class="form-control"
-						placeholder="Informe a imagem do docker" jsf:id="txtPortaAdm"
+				<label for="txtPortaAdm" class="col-sm-2 control-label">Porta Administrativa:</label>
+				<div class="col-sm-4">
+					<input type="text" 
+						class="form-control"
+						placeholder="Informe a imagem do docker" 
+						jsf:id="txtPortaAdm"
 						jsf:value="#{mbProjeto.projeto.portaAdm}" />
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="txtComandoDocker" class="col-sm-1 control-label">Comando Docker:</label>
-				<div class="col-sm-11">
+				<label for="txtComandoDocker" class="col-sm-2 control-label">Comando Docker:</label>
+				<div class="col-sm-10">
 					<input type="text" class="form-control"
 						placeholder="Informe o comando do docker" jsf:id="txtComandoDocker"
 						jsf:value="#{mbProjeto.projeto.comandoDocker}" />
