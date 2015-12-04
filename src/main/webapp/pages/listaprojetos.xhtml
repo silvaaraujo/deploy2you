@@ -57,17 +57,15 @@
         			<td>Nome</td>
         			<td>Repositorio Git</td>
         			<td>Imagem Docker</td>
-        			<td>Porta Http</td>
-        			<td>Porta Https</td>
-        			<td>Porta Administrativa</td>
-        			<td>Comando docker</td>
+        			<td>Portas expostas</td>
         		</tr>
         		<ui:repeat var="e" value="#{mbProjeto.projetos}">
         			<tr>
         				<td>
         					<button 
         						type="button" 
-        						class="btn btn-default"
+        						class="btn btn-danger"
+        						style="font-size: 10px !important;"
         						data-toggle="modal"
         						data-target="#myModal"
         						onclick="setIdRemover('#{e.id}')">
@@ -77,10 +75,7 @@
         				<td>#{e.nome}</td>
         				<td>#{e.repositorioGit}</td>
         				<td>#{e.nomeImagemDocker}</td>
-        				<td>#{e.portaHttp}</td>
-        				<td>#{e.portaHttps}</td>
-        				<td>#{e.portaAdm}</td>
-        				<td>#{e.comandoDocker}</td>
+        				<td>#{e.portas}</td>
         			</tr>
         		</ui:repeat>
         	</table>

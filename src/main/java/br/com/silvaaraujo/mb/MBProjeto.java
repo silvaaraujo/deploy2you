@@ -106,32 +106,27 @@ public class MBProjeto implements Serializable {
 		}
 		
 		if (this.projeto.getRepositorioGit() == null || "".equals(this.projeto.getRepositorioGit().trim())) {
-			ctx.execute("alerta.erro('O repositório git é obrigatorio.');");
+			ctx.execute("alerta.erro('O repositório git é obrigatório.');");
 			valido = Boolean.FALSE;
 		}
 		
 		if (this.projeto.getNomeImagemDocker() == null || "".equals(this.projeto.getNomeImagemDocker().trim())) {
-			ctx.execute("alerta.erro('A imagem docker é obrigatoria.');");
+			ctx.execute("alerta.erro('A imagem docker é obrigatória.');");
 			valido = Boolean.FALSE;
 		}
 		
-		if (this.projeto.getPortaHttp() == null) {
-			ctx.execute("alerta.erro('A porta http é obrigatoria.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getPortaHttps() == null) {
-			ctx.execute("alerta.erro('A porta https é obrigatoria.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getPortaAdm() == null) {
-			ctx.execute("alerta.erro('A porta administrativa é obrigatoria.');");
+		if (this.projeto.getPortas() == null || "".equals(this.projeto.getPortas())) {
+			ctx.execute("alerta.erro('As portas são obrigatórias.');");
 			valido = Boolean.FALSE;
 		}
 		
 		if (this.projeto.getComandoDocker() == null || "".equals(this.projeto.getComandoDocker().trim())) {
-			ctx.execute("alerta.erro('O comando docker é obrigatorio.');");
+			ctx.execute("alerta.erro('O comando docker é obrigatório.');");
+			valido = Boolean.FALSE;
+		}
+		
+		if (this.projeto.getComandoScript() == null || "".equals(this.projeto.getComandoScript().trim())) {
+			ctx.execute("alerta.erro('O comando do script de publicação é obrigatório.');");
 			valido = Boolean.FALSE;
 		}
 		

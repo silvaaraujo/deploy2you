@@ -45,33 +45,13 @@
 			    		jsf:value="#{mbProjeto.projeto.nomeImagemDocker}" />
 			    </div>
         	
-				<label for="txtPortaHttp" class="col-sm-2 control-label">Porta Http:</label>
+				<label for="txtPortas" class="col-sm-2 control-label">Porta:</label>
 				<div class="col-sm-4">
 					<input type="text" 
 						class="form-control"
-						placeholder="Informe a porta http" 
+						placeholder="Informe as portas expostas separando por vírgula e sem espaço" 
 						jsf:id="txtPortaHttp"
-						jsf:value="#{mbProjeto.projeto.portaHttp}" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="txtPortaHttps" class="col-sm-2 control-label">Porta Https:</label>
-				<div class="col-sm-4">
-					<input type="text" 
-						class="form-control"
-						placeholder="Informe a porta https" 
-						jsf:id="txtPortaHttps"
-						jsf:value="#{mbProjeto.projeto.portaHttps}" />
-				</div>
-
-				<label for="txtPortaAdm" class="col-sm-2 control-label">Porta Administrativa:</label>
-				<div class="col-sm-4">
-					<input type="text" 
-						class="form-control"
-						placeholder="Informe a imagem do docker" 
-						jsf:id="txtPortaAdm"
-						jsf:value="#{mbProjeto.projeto.portaAdm}" />
+						jsf:value="#{mbProjeto.projeto.portas}" />
 				</div>
 			</div>
 
@@ -81,6 +61,15 @@
 					<input type="text" class="form-control"
 						placeholder="Informe o comando do docker" jsf:id="txtComandoDocker"
 						jsf:value="#{mbProjeto.projeto.comandoDocker}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="txtComandoScript" class="col-sm-2 control-label">Comando script:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control"
+						placeholder="Informe o comando do script de publicação" jsf:id="txtComandoScript"
+						jsf:value="#{mbProjeto.projeto.comandoScript}" />
 				</div>
 			</div>
 
