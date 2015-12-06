@@ -14,6 +14,12 @@
         
         <form jsf:id="formProjeto" jsf:prependId="false" class="form-horizontal">
         
+        	<f:metadata>
+			    <f:viewParam id="projetoId" 
+			    	name="projetoId" 
+			    	value="#{mbCadProjeto.projetoId}" />
+			</f:metadata>
+        
         	<div class="form-group">
         		<label for="txtNomeProjeto" class="col-sm-2 control-label">Nome:</label>
         		<div class="col-sm-4">
@@ -22,7 +28,7 @@
 			    		placeholder="Informe o projeto" 
 			    		autofocus="true"
 			    		jsf:id="txtNomeProjeto"
-			    		jsf:value="#{mbProjeto.projeto.nome}" />
+			    		jsf:value="#{mbCadProjeto.projeto.nome}" />
 			    </div>
         	
         		<label for="txtRepositorioGit" class="col-sm-2 control-label">Repositório Git:</label>
@@ -31,7 +37,7 @@
 			    		class="form-control" 
 			    		placeholder="Informe o repositório do git" 
 			    		jsf:id="txtRepositorioGit"
-			    		jsf:value="#{mbProjeto.projeto.repositorioGit}" />
+			    		jsf:value="#{mbCadProjeto.projeto.repositorioGit}" />
 			    </div>
         	</div>
         	
@@ -42,16 +48,16 @@
 			    		class="form-control" 
 			    		placeholder="Informe a imagem do docker" 
 			    		jsf:id="txtImagemDocker"
-			    		jsf:value="#{mbProjeto.projeto.nomeImagemDocker}" />
+			    		jsf:value="#{mbCadProjeto.projeto.nomeImagemDocker}" />
 			    </div>
         	
 				<label for="txtPortas" class="col-sm-2 control-label">Porta:</label>
 				<div class="col-sm-4">
 					<input type="text" 
 						class="form-control"
-						placeholder="Informe as portas expostas separando por vírgula e sem espaço" 
-						jsf:id="txtPortaHttp"
-						jsf:value="#{mbProjeto.projeto.portas}" />
+						placeholder="Informe as portas separando por vírgula e sem espaço" 
+						jsf:id="txtPortas"
+						jsf:value="#{mbCadProjeto.projeto.portas}" />
 				</div>
 			</div>
 
@@ -59,8 +65,9 @@
 				<label for="txtComandoDocker" class="col-sm-2 control-label">Comando Docker:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control"
-						placeholder="Informe o comando do docker" jsf:id="txtComandoDocker"
-						jsf:value="#{mbProjeto.projeto.comandoDocker}" />
+						placeholder="Informe o comando do docker" 
+						jsf:id="txtComandoDocker"
+						jsf:value="#{mbCadProjeto.projeto.comandoDocker}" />
 				</div>
 			</div>
 			
@@ -68,8 +75,9 @@
 				<label for="txtComandoScript" class="col-sm-2 control-label">Comando script:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control"
-						placeholder="Informe o comando do script de publicação" jsf:id="txtComandoScript"
-						jsf:value="#{mbProjeto.projeto.comandoScript}" />
+						placeholder="Informe o comando do script de publicação" 
+						jsf:id="txtComandoScript"
+						jsf:value="#{mbCadProjeto.projeto.comandoScript}" />
 				</div>
 			</div>
 
@@ -80,13 +88,13 @@
 	        		style="margin-right: 5px;" 
 	        		value="Cancelar" 
 	        		jsf:id="btnCancelCadastro" 
-	        		jsf:action="listaprojetos" />
+	        		jsf:action="projetos" />
         	
 	        	<input class="btn btn btn-primary" 
 	        		type="submit" 
 	        		value="Cadastrar" 
 	        		jsf:id="btnCadastrarProjeto" 
-	        		jsf:action="#{mbProjeto.gravar}" />
+	        		jsf:action="#{mbCadProjeto.gravar}" />
 	        		
         	</div>
         </form>

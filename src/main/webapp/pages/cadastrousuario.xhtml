@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+	xmlns:h="http://java.sun.com/jsf/html"  
+ 	xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" 
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+   	template="/templates/main.xhtml">
+   	
+    <ui:define name="content">                        
+        <h1 class="page-header"> 
+        	<i class="fa fa-tachometer" /> 
+        	Cadastro de usuário
+        </h1>
+        
+        <form jsf:id="formUsuario" jsf:prependId="false" class="form-horizontal">
+        
+        	<div class="form-group">
+        		<label for="txtNomeUsuario" class="col-sm-2 control-label">Nome:</label>
+        		<div class="col-sm-10">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe o nome do usuário" 
+			    		autofocus="true"
+			    		jsf:id="txtNomeUsuario"
+			    		jsf:value="#{mbCadUsuario.usuario.nome}" />
+			    </div>
+		    </div>
+        	
+        	<div class="form-group">
+        		<label for="txtRepositorioGit" class="col-sm-2 control-label">Login:</label>
+        		<div class="col-sm-10">
+			    	<input type="text" 
+			    		class="form-control" 
+			    		placeholder="Informe o login do usuário" 
+			    		jsf:id="txtLogin"
+			    		jsf:value="#{mbCadUsuario.usuario.login}" />
+			    </div>
+        	</div>
+
+			<div id="botoes" class="clearfix pull-right">
+        	
+	        	<input class="btn btn-warning"
+	        		type="submit"
+	        		style="margin-right: 5px;" 
+	        		value="Cancelar" 
+	        		jsf:id="btnCancelCadastro" 
+	        		jsf:action="usuarios" />
+        	
+	        	<input class="btn btn btn-primary" 
+	        		type="submit" 
+	        		value="Cadastrar" 
+	        		jsf:id="btnCadastrarUsuario" 
+	        		jsf:action="#{mbCadUsuario.gravar}" />
+	        		
+        	</div>
+        </form>
+    </ui:define>
+</ui:composition>

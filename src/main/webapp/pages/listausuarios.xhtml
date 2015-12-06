@@ -11,56 +11,54 @@
     	
         <h1 class="page-header"> 
         	<i class="fa fa-tachometer" /> 
-        	Projetos
+        	Usuários
         </h1>
         
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         
- 	        <p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbProjeto.setProjetoId}" />
+        	<p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbUsuario.setUsuarioId}" />
  	        <p:remoteCommand id="rmcEditar" name="rmEditar" action="#{mbProjeto.editar}" />
-           	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbProjeto.remover}" update="@form" onsuccess="alerta.sucesso('Projeto removido com sucesso!');" />
-           	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbProjeto.limpar}" />
-        
-        	<!-- Modal -->
+           	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbUsuario.remover}" update="@form" onsuccess="alerta.sucesso('Usuário removido com sucesso!');" />
+           	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbUsuario.limpar}" />
+           	
+           	<!-- Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
-			        <h4 class="modal-title" id="myModalLabel">Confirma exclusão?</h4>
-			      </div>
-			      <div class="modal-body">
-			      	Deseja realmente excluir o projeto selecionado?
-			      </div>
-			      <div class="modal-footer">
-			        <button type="submit" 
-			        	class="btn btn-default" 
-			        	data-dismiss="modal"
-			        	onclick="rmConfirmaLimpar();">
-        				Cancelar
-        			</button>
-        				
-			        <button type="submit" 
-			        	class="btn btn-primary"
-			        	data-dismiss="modal"
-						onclick="rmConfirmaRemover();">
-			        	Confirmar
-			        </button>
-			        
-			      </div>
-			    </div>
-			  </div>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true"></span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Confirma exclusão?</h4>
+						</div>
+						<div class="modal-body">Deseja realmente excluir o usuário selecionado?</div>
+						<div class="modal-footer">
+							<button type="submit" 
+								class="btn btn-default"
+								data-dismiss="modal" 
+								onclick="rmConfirmaLimpar();">
+								Cancelar
+							</button>
+
+							<button type="submit" 
+								class="btn btn-primary"
+								data-dismiss="modal" 
+								onclick="rmConfirmaRemover();">
+								Confirmar
+							</button>
+
+						</div>
+					</div>
+				</div>
 			</div>
-        
-        	<table class="table table-striped">
+
+			<table class="table table-striped">
         		<tr>
         			<td>Ações</td>
         			<td>Nome</td>
-        			<td>Repositorio Git</td>
-        			<td>Imagem Docker</td>
-        			<td>Portas expostas</td>
+        			<td>Login</td>
         		</tr>
-        		<ui:repeat var="e" value="#{mbProjeto.projetos}">
+        		<ui:repeat var="e" value="#{mbUsuario.usuarios}">
         			<tr>
         				<td>
         					<button 
@@ -82,9 +80,7 @@
         					</button>
 	                    </td>
         				<td>#{e.nome}</td>
-        				<td>#{e.repositorioGit}</td>
-        				<td>#{e.nomeImagemDocker}</td>
-        				<td>#{e.portas}</td>
+        				<td>#{e.login}</td>
         			</tr>
         		</ui:repeat>
         	</table>
@@ -93,8 +89,8 @@
 	        	<input class="btn btn-primary" 
 	        		type="submit" 
 	        		value="Novo" 
-	        		jsf:id="btnNovoProjeto" 
-	        		jsf:action="#{mbProjeto.novo}" />
+	        		jsf:id="btnNovoUsuario" 
+	        		jsf:action="#{mbUsuario.novo}" />
         	</div>
         	
         </form>

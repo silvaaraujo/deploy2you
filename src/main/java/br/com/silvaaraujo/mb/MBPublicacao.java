@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.Path;
 
 import org.primefaces.context.RequestContext;
 
@@ -26,7 +25,6 @@ import br.com.silvaaraujo.utils.GitUtils;
 
 @ViewScoped
 @Named("mbPublicacao")
-@Path("/manterPublicacao")
 public class MBPublicacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

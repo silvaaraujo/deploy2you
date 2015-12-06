@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.bson.types.ObjectId;
-import org.primefaces.context.RequestContext;
 
 import br.com.silvaaraujo.dao.ProjetoDAO;
 import br.com.silvaaraujo.entidade.Projeto;
@@ -37,19 +36,6 @@ public class MBProjeto implements Serializable {
 		this.projeto = new Projeto();
 	}
 	
-	public void gravar() {
-		RequestContext ctx = RequestContext.getCurrentInstance();
-		
-		if (!validar(ctx)) {
-			return;
-		}
-		
-		this.projetoDAO.insert(this.projeto);
-		this.limpar();
-		
-		ctx.execute("alerta.sucesso('Projeto gravado com sucesso!');");
-	}
-	
 	public void limpar() {
 		this.projetoId = null;
 		this.projeto = new Projeto();
@@ -64,6 +50,17 @@ public class MBProjeto implements Serializable {
 		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String x = String.valueOf(params.get("id"));
 		this.projetoId = x;
+	}
+	
+	public String editar() {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String x = String.valueOf(params.get("id"));
+		
+		if (x == null || "".equals(x)) {
+			return "projetos";
+		}
+		
+		return "cadastrarprojeto";
 	}
 
 	public void remover() {
@@ -82,6 +79,7 @@ public class MBProjeto implements Serializable {
 	
 	public List<Projeto> getProjetos() {
 		if (this.projetos == null || this.projetos.isEmpty()) {
+			this.projetos = new ArrayList<>();
 			this.pesquisarProjetos();
 		}
 		return projetos;
@@ -92,44 +90,8 @@ public class MBProjeto implements Serializable {
 		return "cadastrarprojeto";
 	}
 	
-	private boolean validar(RequestContext ctx) {
-		Boolean valido = Boolean.TRUE;
-		
-		if (this.projeto == null) {
-			ctx.execute("alerta.erro('Projeto nulo, favor informar a administração do sistema.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getNome() == null || "".equals(this.projeto.getNome().trim())) {
-			ctx.execute("alerta.erro('O nome do projeto é obrigatório.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getRepositorioGit() == null || "".equals(this.projeto.getRepositorioGit().trim())) {
-			ctx.execute("alerta.erro('O repositório git é obrigatório.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getNomeImagemDocker() == null || "".equals(this.projeto.getNomeImagemDocker().trim())) {
-			ctx.execute("alerta.erro('A imagem docker é obrigatória.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getPortas() == null || "".equals(this.projeto.getPortas())) {
-			ctx.execute("alerta.erro('As portas são obrigatórias.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getComandoDocker() == null || "".equals(this.projeto.getComandoDocker().trim())) {
-			ctx.execute("alerta.erro('O comando docker é obrigatório.');");
-			valido = Boolean.FALSE;
-		}
-		
-		if (this.projeto.getComandoScript() == null || "".equals(this.projeto.getComandoScript().trim())) {
-			ctx.execute("alerta.erro('O comando do script de publicação é obrigatório.');");
-			valido = Boolean.FALSE;
-		}
-		
-		return valido;
+	public String getProjetoId() {
+		return projetoId;
 	}
+
 }
