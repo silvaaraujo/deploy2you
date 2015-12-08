@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
+import br.com.silvaaraujo.utils.DockerUtils;
 
 @ViewScoped
 @Named("mbDashboard")
@@ -24,6 +25,9 @@ public class MBDashboard implements Serializable {
 	
 	@Inject
 	private PublicacaoDAO publicacaoDAO;
+	
+	@Inject
+	private DockerUtils docker;
 	
 	private List<Publicacao> publicacoes;
 	private String publicacaoId;
@@ -60,8 +64,26 @@ public class MBDashboard implements Serializable {
 			return;
 		}
 		
+		Publicacao publicacao = this.publicacaoDAO.findById(this.publicacaoId);
+		
+		this.docker.stopContainer(publicacao.getContainer());
+		this.docker.removeContainer(publicacao.getContainer());
 		this.publicacaoDAO.removeById(new ObjectId(this.publicacaoId));
 		limpar();
+	}
+	
+	public void startContainer() {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String publicacaoId = String.valueOf(params.get("id"));
+		Publicacao publicacao = this.publicacaoDAO.findById(publicacaoId);
+		this.docker.starContainer(publicacao.getContainer());
+	}
+	
+	public void stopContainer() {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String publicacaoId = String.valueOf(params.get("id"));
+		Publicacao publicacao = this.publicacaoDAO.findById(publicacaoId);
+		this.docker.stopContainer(publicacao.getContainer());
 	}
 	
 	public void limpar() {

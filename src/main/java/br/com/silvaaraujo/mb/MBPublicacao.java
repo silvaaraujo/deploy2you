@@ -67,7 +67,7 @@ public class MBPublicacao implements Serializable {
 			int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
 			Projeto projeto = this.projetoDAO.findById(this.projectId);
 			criarPublicacao(projeto);
-			createContainer(totalPublicacaoStart, this.publicacao.getContainer(), projeto);
+			createContainer(totalPublicacaoStart, this.publicacao, projeto);
 			
 			this.publicacaoDAO.insert(this.publicacao);
 			this.limpar();
@@ -79,8 +79,8 @@ public class MBPublicacao implements Serializable {
 		ctx.execute("alerta.sucesso('Publicação efetuada com sucesso!');");
 	}
 	
-	public void createContainer(int totalPublicacaoStart, String nameContainer, Projeto projeto) {
-		this.dockerUtils.createContainer(totalPublicacaoStart, nameContainer, projeto);
+	public void createContainer(int totalPublicacaoStart, Publicacao publicacao, Projeto projeto) {
+		this.dockerUtils.createContainer(totalPublicacaoStart, publicacao, projeto);
 	}
 
 	private boolean validar(RequestContext ctx) {

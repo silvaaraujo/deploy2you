@@ -15,6 +15,8 @@
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         	
         	<p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbDashboard.setPublicacaoId}" />
+        	<p:remoteCommand id="rmcStartContainer" name="rmStartContainer" action="#{mbDashboard.startContainer}"/>
+        	<p:remoteCommand id="rmcStopContainer" name="rmStopContainer" action="#{mbDashboard.stopContainer}"/>
            	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbDashboard.remover}" update="@form" onsuccess="alerta.sucesso('Publicação removida com sucesso!');" />
            	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbDashboard.limpar}" />
         
@@ -38,8 +40,24 @@
         						onclick="setIdRemover('#{e.id}')">
         						<span class="glyphicon glyphicon-remove" aria-hidden="true" />
         					</button>
+        					
+        					<button 
+        						type="button" 
+        						class="btn btn-success"
+        						style="font-size: 10px !important;"
+        						onclick="setIdStartContainer('#{e.id}')" >
+        						<span class="glyphicon glyphicon-play" aria-hidden="true" />
+        					</button>
+        					
+        					<button 
+        						type="button" 
+        						class="btn btn-warning"
+        						style="font-size: 10px !important;"
+        						onclick="setIdStopContainer('#{e.id}')" >
+        						<span class="glyphicon glyphicon-pause" aria-hidden="true" />
+        					</button>
+        					
 	                    </td>
-	                    
         				<td>#{e.dataFormatada}</td>
         				<td>#{e.user}</td>
         				<td>#{e.url}</td>
@@ -82,6 +100,12 @@
 				function setIdRemover(id) {
 	       			rmRemover([{name:'id', value:id}]);
 	       		}
+				function setIdStartContainer(id) {
+					rmStartContainer([{name:'id', value:id}]);
+				}
+				function setIdStopContainer(id) {
+					rmStopContainer([{name:'id', value:id}]);
+				}
 			</script>
 			
         </form>
