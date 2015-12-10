@@ -60,7 +60,9 @@ public class MBProjeto implements Serializable {
 			return "projetos";
 		}
 		
-		return "cadastrarprojeto";
+		String param ="?faces-redirect=true&amp;projId="+x;
+		
+		return "cadastroprojeto.xhtml"+param;
 	}
 
 	public void remover() {
@@ -94,4 +96,7 @@ public class MBProjeto implements Serializable {
 		return projetoId;
 	}
 
+	public void setProjetoId(String projetoId) {
+		this.projetoId = projetoId;
+	}
 }

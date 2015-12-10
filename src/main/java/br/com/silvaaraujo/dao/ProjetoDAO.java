@@ -56,7 +56,19 @@ public class ProjetoDAO {
 	}
 	
 	public void insert(Projeto projeto) {
-		dbCollection.insert(getBasicDBOjectFromProjeto(projeto));
+		if (projeto.getId() == null) {
+			dbCollection.insert(getBasicDBOjectFromProjeto(projeto));
+			return;
+		}
+		
+		BasicDBObject objEdicao = this.getBasicDBOjectFromProjeto(projeto);
+		BasicDBObject searchObj = new BasicDBObject().append("_id", projeto.getId());
+		if (searchObj == null) {
+			//deve lançar exceção e mostrar o erro ao usuario.
+			return;
+		}
+		
+		this.dbCollection.update(searchObj, objEdicao);
 	}
 
 	public void update(Projeto projeto) {

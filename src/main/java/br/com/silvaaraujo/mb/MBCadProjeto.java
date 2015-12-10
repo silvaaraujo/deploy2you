@@ -99,5 +99,12 @@ public class MBCadProjeto implements Serializable {
 
 	public void setProjetoId(String projetoId) {
 		this.projetoId = projetoId;
+		this.buscarProjeto();
+	}
+
+	private void buscarProjeto() {
+		if (this.projetoId != null || !this.projetoId.trim().isEmpty()) {
+			this.projeto = this.projetoDAO.findById(this.projetoId);
+		}
 	}
 }
