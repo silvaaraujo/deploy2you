@@ -17,7 +17,7 @@
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         
         	<p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbUsuario.setUsuarioId}" />
- 	        <p:remoteCommand id="rmcEditar" name="rmEditar" action="#{mbProjeto.editar}" />
+ 	        <p:remoteCommand id="rmcEditar" name="rmEditar" action="#{mbUsuario.editar}" />
            	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbUsuario.remover}" update="@form" onsuccess="alerta.sucesso('Usuário removido com sucesso!');" />
            	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbUsuario.limpar}" />
            	

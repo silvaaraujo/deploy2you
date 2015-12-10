@@ -76,4 +76,15 @@ public class MBCadUsuario implements Serializable {
 	public String getUsuarioId() {
 		return usuarioId;
 	}
+
+	public void setUsuarioId(String usuarioId) {
+		this.usuarioId = usuarioId;
+		this.buscarUsuario();
+	}
+	
+	private void buscarUsuario() {
+		if (this.usuarioId != null || !this.usuarioId.trim().isEmpty()) {
+			this.usuario = this.usuarioDAO.findById(this.usuarioId);
+		}
+	}
 }

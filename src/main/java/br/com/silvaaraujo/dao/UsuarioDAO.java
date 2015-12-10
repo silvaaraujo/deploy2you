@@ -55,7 +55,19 @@ public class UsuarioDAO {
 	}
 	
 	public void insert(Usuario usuario) {
-		dbCollection.insert(getBasicDBOjectFromUsuario(usuario));
+		if (usuario.getId() == null) {
+			dbCollection.insert(getBasicDBOjectFromUsuario(usuario));
+			return;
+		}
+		
+		BasicDBObject objEdicao = this.getBasicDBOjectFromUsuario(usuario);
+		BasicDBObject searchObj = new BasicDBObject().append("_id", usuario.getId());
+		if (searchObj == null) {
+			//deve lançar exceção e mostrar o erro ao usuario.
+			return;
+		}
+		
+		this.dbCollection.update(searchObj, objEdicao);
 	}
 	
 	public void update(Usuario usuario) {

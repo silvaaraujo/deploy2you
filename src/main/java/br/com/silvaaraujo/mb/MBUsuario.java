@@ -79,7 +79,9 @@ public class MBUsuario implements Serializable {
 			return "usuarios";
 		}
 		
-		return "cadastrarusuario";
+		String param ="?faces-redirect=true&amp;userId="+x;
+		
+		return "cadastrousuario.xhtml"+param;
 	}
 	
 	public void remover() {
