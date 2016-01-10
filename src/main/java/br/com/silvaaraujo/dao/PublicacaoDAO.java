@@ -88,6 +88,7 @@ public class PublicacaoDAO {
 		publicacaoParaGravar.append("ativo", publicacao.getAtivo());
 		publicacaoParaGravar.append("branch", publicacao.getBranch());
 		publicacaoParaGravar.append("data", publicacao.getData());
+		publicacaoParaGravar.append("usedPorts", publicacao.getUsedPorts());
 		return publicacaoParaGravar;
 	}
 	
@@ -101,6 +102,7 @@ public class PublicacaoDAO {
 		publicacao.setAtivo((Boolean) resultElementMap.get("ativo"));
 		publicacao.setBranch((String) resultElementMap.get("branch"));
 		publicacao.setData((Date) resultElementMap.get("data"));
+		publicacao.setUsedPorts((List<Integer>) resultElementMap.get("usedPorts"));
 		return publicacao;
 	}
 }

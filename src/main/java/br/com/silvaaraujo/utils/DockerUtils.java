@@ -9,16 +9,41 @@ import br.com.silvaaraujo.entidade.Publicacao;
 
 @Model
 public class DockerUtils {
-	
-	public void createContainer(int totalContainer, Publicacao publicacao, Projeto projeto) {
+
+	/**
+	 * Metodo responsavel por criar, iniciar e publicar a tag informada na publicacao
+	 * @param publicacao
+	 * @param projeto
+	 */
+	public void createContainer(Publicacao publicacao, Projeto projeto) {
 		try {
-			runContainer(projeto, publicacao.getContainer());
-			executeScript(projeto, publicacao);
-		} catch (IOException e) {
+			//this.runContainer(projeto, publicacao);
+			//executeScript(projeto, publicacao);
+			
+			//criando o commando de criacao do container
+			String dockerCommand = this.createCommand(projeto, publicacao);
+			System.out.println(dockerCommand);
+			
+			//executando o comando para criar o container
+			//new LocalShellUtils().executarComando(reportNameContainer(dockerCommand, publicacao.getContainer()));
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	private String createCommand(Projeto projeto, Publicacao publicacao) {
+		//trocando o nome da variavel [containerName] pelo nome do container setado dinamicamente na publicacao
+		String dockerCommand = projeto.getComandoDocker().replace("[containerName]", publicacao.getContainer());
+		
+		//realizando o binding das portas
+		String[] containerPorts = projeto.getPortas().split(",");
+		for(int i=0; i<containerPorts.length; i++) {
+			dockerCommand = dockerCommand.replace("["+i+"]", String.valueOf(publicacao.getUsedPorts().get(i)));
+		}
+		return dockerCommand;
+	}
+	
 	private void executeScript(Projeto projeto, Publicacao publicacao) {
 		PublicacaoUtils publicador = new PublicacaoUtils();
 		publicador.setProjeto(projeto);
@@ -27,21 +52,6 @@ public class DockerUtils {
 		thread.start();
 	}
 
-	private void runContainer(Projeto projeto, String nameContainer) throws IOException {
-		LocalShellUtils bash = new LocalShellUtils();
-		String dockerCommand = bindPortas(projeto);
-		bash.executarComando(reportNameContainer(dockerCommand, nameContainer));
-	}
-
-	private String bindPortas(Projeto projeto) {
-		String[] portas = projeto.getPortas().split(",");
-		String dockerCommand = projeto.getComandoDocker();
-		
-		for(int i=0; i<portas.length; i++) {
-			dockerCommand = dockerCommand.replace("["+i+"]", String.valueOf(portas[i]));
-		}
-		return dockerCommand;
-	}
 	
 	private String reportNameContainer(String dockerCommand, String nameContainer) {
 		return dockerCommand.replace("[nameContainer]", nameContainer);

@@ -69,24 +69,31 @@ public class MBPublicacao implements Serializable {
 		}
 		
 		try {
+			//localiza o projeto a ser publicado
 			Projeto projeto = this.projetoDAO.findById(this.projectId);
+			
+			//cria o objeto da publicação o qual contera informacoes sobre
+			//o projeto, tag e caminho de acesso para a aplicação web.
 			this.criarPublicacao(projeto);
-			
-			//createContainer(totalPublicacaoStart, this.publicacao, projeto);
-			
+
+			//grava a publicacao 
 			this.publicacaoDAO.insert(this.publicacao);
 			
+			//cria o container do docker
+			createContainer(this.publicacao, projeto);
+			
+			//limpa as variaveis para permitir a insercao de uma nova publicacao
 			this.limpar();
 		} catch (Exception e) {
 			ctx.execute("alerta.erro('Erro ao efetuar publicação, favor informar a administração do sistema.');");
 			return;
 		}
-		
+
 		ctx.execute("alerta.sucesso('Publicação efetuada com sucesso!');");
 	}
 	
-	public void createContainer(int totalPublicacaoStart, Publicacao publicacao, Projeto projeto) {
-		this.dockerUtils.createContainer(totalPublicacaoStart, publicacao, projeto);
+	public void createContainer(Publicacao publicacao, Projeto projeto) {
+		this.dockerUtils.createContainer(publicacao, projeto);
 	}
 
 	private boolean validar(RequestContext ctx) {
