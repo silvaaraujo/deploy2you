@@ -126,7 +126,7 @@ public class MBPublicacao implements Serializable {
 		this.publicacao.setUrl(MessageFormat.format("https://{0}:{1}/{2}",
 													this.configuracao.getNomeHost(),
 													ports.get(0).toString(),
-													p.getNome()));
+													p.getContextoWeb()));
 	}
 	
 	private List<Integer> getPorts(Projeto projeto) {
