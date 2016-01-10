@@ -1,10 +1,12 @@
 package br.com.silvaaraujo.mb;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -50,10 +52,13 @@ public class MBPublicacao implements Serializable {
 	
 	private String projectId;
 	
+	private Configuracao configuracao;
+	
 	@PostConstruct
 	public void init() {
 		publicacao = new Publicacao();
 		this.projetos = new ArrayList<>();
+		this.configuracao = this.configuracaoDAO.buscarConfiguracao();
 	}
 
 	public void publicar() {
@@ -64,12 +69,13 @@ public class MBPublicacao implements Serializable {
 		}
 		
 		try {
-			int totalPublicacaoStart = this.publicacaoDAO.countPublicacao();
 			Projeto projeto = this.projetoDAO.findById(this.projectId);
-			criarPublicacao(projeto);
-			createContainer(totalPublicacaoStart, this.publicacao, projeto);
+			this.criarPublicacao(projeto);
+			
+			//createContainer(totalPublicacaoStart, this.publicacao, projeto);
 			
 			this.publicacaoDAO.insert(this.publicacao);
+			
 			this.limpar();
 		} catch (Exception e) {
 			ctx.execute("alerta.erro('Erro ao efetuar publicação, favor informar a administração do sistema.');");
@@ -112,11 +118,68 @@ public class MBPublicacao implements Serializable {
 		this.publicacao.setAtivo(Boolean.TRUE);
 		this.publicacao.setData(new Date());
 		this.publicacao.setProjeto(p.getNome());
-		this.publicacao.setUrl("localhost:"+getPorta()+"/"+p.getNome());
-		this.publicacao.setUser("admin");
+		this.publicacao.setUser("admin"); //usuario logado 
 		this.publicacao.setContainer(p.getNomeImagemDocker() + "-" + this.publicacao.getTag());
+		
+		List<Integer> ports = this.getPorts(p);
+		this.publicacao.setUsedPorts(ports);
+		this.publicacao.setUrl(MessageFormat.format("https://{0}:{1}/{2}",
+													this.configuracao.getNomeHost(),
+													ports.get(0).toString(),
+													p.getNome()));
 	}
 	
+	private List<Integer> getPorts(Projeto projeto) {
+		//portas indisponiveis
+		List<Integer> unavailablePorts = getUnavailablePorts();
+
+		//lista que sera retornada para ser setada na publicacao
+		List<Integer> ports = new ArrayList<>();
+		
+		//para cada porta que o projeto expoe, executa um randon para definir a proxima porta setada
+		//caso o randon retorne uma porta ja utilizada, uma nova chamada ao metodo randomico 
+		//eh executada ate que se consiga uma porta disponivel.
+		String[] portas = projeto.getPortas().split(",");
+		for (int i = 0; i < portas.length; i++) {
+			Integer nextPort = getNextPort(unavailablePorts);
+			ports.add(nextPort);
+			unavailablePorts.add(nextPort);
+		}
+		
+		return ports;
+	}
+
+	private List<Integer> getUnavailablePorts() {
+		List<Integer> unavailablePorts = new ArrayList<>();
+		
+		for (Publicacao publicacao : this.publicacaoDAO.findAll()) {
+			unavailablePorts.addAll(publicacao.getUsedPorts());
+		}
+		
+		return unavailablePorts;
+	}
+
+	private int getNextPort(List<Integer> unavailablePorts) {
+		Integer nextPort = null;
+		
+		while (nextPort == null) {
+			nextPort = ThreadLocalRandom.current().nextInt(8000, 9900 + 1);
+			if (!isValidPort(nextPort, unavailablePorts)) {
+				nextPort = null;
+			}
+		}
+		
+		return nextPort;
+	}
+	
+	private boolean isValidPort(Integer nextPort, List<Integer> unavailablePorts) {
+		if (unavailablePorts.contains(nextPort)) {
+			return false;
+		}
+		return true;
+	}
+
+	/*	
 	private int getPorta() {
 		List<Publicacao> list = this.publicacaoDAO.findAll();
 		int qtdPublicada = list != null ? list.size() : 0;
@@ -124,7 +187,7 @@ public class MBPublicacao implements Serializable {
 		int porta = 8080+qtdPublicada;
 		return porta; 
 	}
-
+*/
 	private void limpar() {
 		this.publicacao = new Publicacao();
 	}
@@ -179,19 +242,17 @@ public class MBPublicacao implements Serializable {
 	}
 	
 	public boolean validarTag(RequestContext ctx) {
-
 		Projeto projeto = this.projetoDAO.findById(this.projectId);
-		Configuracao configuracao = this.configuracaoDAO.buscarConfiguracao();
-		
-		if (projeto == null || configuracao == null) {
+
+		if (projeto == null || this.configuracao == null) {
 			return false;
 		}
 		
 		List<String> tags = null;
 		try {
 			 tags = this.gitUtils.getRemoteTags(projeto.getRepositorioGit(), 
-												configuracao.getUsuarioGit(), 
-												configuracao.getPasswordUsuarioGit());
+												this.configuracao.getUsuarioGit(), 
+												this.configuracao.getPasswordUsuarioGit());
 		
 			if (tags == null || tags.isEmpty()) {
 				ctx.execute("alerta.erro('A tag informada não foi encontrada.');");

@@ -10,6 +10,7 @@ public class Projeto implements Serializable {
 	
 	private ObjectId id;
 	private String nome;
+	private String contextoWeb;
 	private String repositorioGit;
 	private String nomeImagemDocker;
 	private String portas;
@@ -74,6 +75,14 @@ public class Projeto implements Serializable {
 
 	public void setComandoScript(String comandoScript) {
 		this.comandoScript = comandoScript;
+	}
+
+	public String getContextoWeb() {
+		return contextoWeb;
+	}
+
+	public void setContextoWeb(String contextoWeb) {
+		this.contextoWeb = contextoWeb;
 	}
 
 	@Override

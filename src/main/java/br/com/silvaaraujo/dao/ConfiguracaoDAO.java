@@ -87,6 +87,7 @@ public class ConfiguracaoDAO {
 		basicDBObject.append("diretorioBase", configuracao.getDiretorioBase());
 		basicDBObject.append("usuarioGit", configuracao.getUsuarioGit());
 		basicDBObject.append("passwordUsuarioGit", configuracao.getPasswordUsuarioGit());
+		basicDBObject.append("nomeHost", configuracao.getNomeHost());
 		return basicDBObject;
 	}
 	
@@ -96,6 +97,7 @@ public class ConfiguracaoDAO {
 		c.setDiretorioBase((String) resultElementMap.get("diretorioBase"));
 		c.setUsuarioGit((String) resultElementMap.get("usuarioGit"));
 		c.setPasswordUsuarioGit((String) resultElementMap.get("passwordUsuarioGit"));
+		c.setNomeHost((String) resultElementMap.get("nomeHost"));
 		return c;
 	}
 	

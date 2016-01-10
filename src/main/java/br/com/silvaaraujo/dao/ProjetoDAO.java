@@ -84,6 +84,7 @@ public class ProjetoDAO {
 	public BasicDBObject getBasicDBOjectFromProjeto(Projeto projeto) {
 		BasicDBObject basicDBObject = new BasicDBObject();
 		basicDBObject.append("nome", projeto.getNome());
+		basicDBObject.append("contextoWeb", projeto.getContextoWeb());
 		basicDBObject.append("repositorioGit", projeto.getRepositorioGit());
 		basicDBObject.append("nomeImagemDocker", projeto.getNomeImagemDocker());
 		basicDBObject.append("portas", projeto.getPortas());
@@ -96,6 +97,7 @@ public class ProjetoDAO {
 		Projeto p = new Projeto();
 		p.setId((ObjectId) resultElementMap.get("_id"));
 		p.setNome((String) resultElementMap.get("nome"));
+		p.setContextoWeb((String) resultElementMap.get("contextoWeb"));
 		p.setRepositorioGit((String) resultElementMap.get("repositorioGit"));
 		p.setNomeImagemDocker((String) resultElementMap.get("nomeImagemDocker"));
 		p.setPortas((String) resultElementMap.get("portas"));

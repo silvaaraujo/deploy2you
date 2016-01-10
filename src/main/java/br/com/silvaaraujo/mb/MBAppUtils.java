@@ -16,7 +16,7 @@ public class MBAppUtils {
 	@Produces
 	public DB getDb() {
 		if (this.db == null) {
-			Mongo mongo = new Mongo("127.0.0.1", 27017);
+			Mongo mongo = new Mongo("192.168.2.16", 27017);
 			this.db = mongo.getDB("deploy2you");
 		}
 		return db;

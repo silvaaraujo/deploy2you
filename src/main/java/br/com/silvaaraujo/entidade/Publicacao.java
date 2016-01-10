@@ -3,6 +3,7 @@ package br.com.silvaaraujo.entidade;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -19,6 +20,7 @@ public class Publicacao implements Serializable {
 	private String tag;
 	private String container;
 	private Boolean ativo;
+	private List<Integer> usedPorts;
 
 	public Publicacao() {
 		super();
@@ -87,6 +89,22 @@ public class Publicacao implements Serializable {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public String getContainer() {
+		return container;
+	}
+	
+	public void setContainer(String container) {
+		this.container = container;
+	}
+
+	public List<Integer> getUsedPorts() {
+		return usedPorts;
+	}
+
+	public void setUsedPorts(List<Integer> usedPorts) {
+		this.usedPorts = usedPorts;
+	}
 
 	public String getDataFormatada() {
 		if (this.data != null) {
@@ -120,11 +138,4 @@ public class Publicacao implements Serializable {
 		return true;
 	}
 
-	public String getContainer() {
-		return container;
-	}
-
-	public void setContainer(String container) {
-		this.container = container;
-	}
 }

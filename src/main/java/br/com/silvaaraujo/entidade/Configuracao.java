@@ -12,6 +12,7 @@ public class Configuracao implements Serializable {
 	private String diretorioBase;
 	private String usuarioGit;
 	private String passwordUsuarioGit;
+	private String nomeHost;
 
 	public Configuracao() {
 		super();
@@ -47,6 +48,14 @@ public class Configuracao implements Serializable {
 
 	public void setPasswordUsuarioGit(String passwordUsuarioGit) {
 		this.passwordUsuarioGit = passwordUsuarioGit;
+	}
+
+	public String getNomeHost() {
+		return nomeHost;
+	}
+
+	public void setNomeHost(String nomeHost) {
+		this.nomeHost = nomeHost;
 	}
 	
 }

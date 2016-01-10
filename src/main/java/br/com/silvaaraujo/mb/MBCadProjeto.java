@@ -65,6 +65,11 @@ public class MBCadProjeto implements Serializable {
 			valido = Boolean.FALSE;
 		}
 		
+		if (this.projeto.getContextoWeb() == null || "".equals(this.projeto.getContextoWeb().trim())) {
+			ctx.execute("alerta.erro('O contexto web do projeto é obrigatório.');");
+			valido = Boolean.FALSE;
+		}
+		
 		if (this.projeto.getRepositorioGit() == null || "".equals(this.projeto.getRepositorioGit().trim())) {
 			ctx.execute("alerta.erro('O repositório git é obrigatório.');");
 			valido = Boolean.FALSE;

@@ -81,6 +81,11 @@ public class MBConfiguracao implements Serializable {
 			valido = Boolean.FALSE;
 		}
 		
+		if (this.configuracao.getNomeHost() == null || this.configuracao.getNomeHost().trim().isEmpty()) {
+			ctx.execute("alerta.erro('O nome do host é obrigatório.');");
+			valido = Boolean.FALSE;
+		}
+		
 		return valido;
 	}
 }
