@@ -20,14 +20,13 @@ public class DockerUtils {
 		try {
 			//criando o commando de criacao do container
 			String dockerCommand = this.createCommand(projeto, publicacao);
-			System.out.println(dockerCommand);
+			//System.out.println(dockerCommand);
 			
 			//criando e iniciando o container
 			new LocalShellUtils().executarComando(dockerCommand);
 			
-			//executando o comando para criar o container
-			//new LocalShellUtils().executarComando(reportNameContainer(dockerCommand, publicacao.getContainer()));
-			
+			//executando o comando para aplicar o script de publicacao
+			//TODO
 		} catch (Exception e) {
 			throw e;
 		}
