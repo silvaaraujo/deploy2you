@@ -90,6 +90,7 @@ public class ProjetoDAO {
 		basicDBObject.append("portas", projeto.getPortas());
 		basicDBObject.append("comandoDocker", projeto.getComandoDocker());
 		basicDBObject.append("comandoScript", projeto.getComandoScript());
+		basicDBObject.append("nomeBaseContainer", projeto.getNomeBaseContainer());
 		return basicDBObject;
 	}
 	
@@ -103,6 +104,7 @@ public class ProjetoDAO {
 		p.setPortas((String) resultElementMap.get("portas"));
 		p.setComandoDocker((String) resultElementMap.get("comandoDocker"));
 		p.setComandoScript((String) resultElementMap.get("comandoScript"));
+		p.setNomeBaseContainer((String) resultElementMap.get("nomeBaseContainer"));
 		return p;
 	}
 }

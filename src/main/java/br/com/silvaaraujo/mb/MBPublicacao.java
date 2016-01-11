@@ -126,7 +126,7 @@ public class MBPublicacao implements Serializable {
 		this.publicacao.setData(new Date());
 		this.publicacao.setProjeto(p.getNome());
 		this.publicacao.setUser("admin"); //usuario logado 
-		this.publicacao.setContainer(p.getNomeImagemDocker() + "-" + this.publicacao.getTag());
+		this.publicacao.setContainer(p.getNomeBaseContainer() + "-" + this.publicacao.getTag());
 		
 		List<Integer> ports = this.getPorts(p);
 		this.publicacao.setUsedPorts(ports);

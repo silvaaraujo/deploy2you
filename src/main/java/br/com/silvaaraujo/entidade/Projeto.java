@@ -1,6 +1,8 @@
 package br.com.silvaaraujo.entidade;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 
@@ -10,12 +12,13 @@ public class Projeto implements Serializable {
 	
 	private ObjectId id;
 	private String nome;
-	private String contextoWeb;
 	private String repositorioGit;
 	private String nomeImagemDocker;
 	private String portas;
 	private String comandoDocker;
 	private String comandoScript;
+	private String contextoWeb;
+	private String nomeBaseContainer;
 
 	public Projeto() {
 		super();
@@ -83,6 +86,14 @@ public class Projeto implements Serializable {
 
 	public void setContextoWeb(String contextoWeb) {
 		this.contextoWeb = contextoWeb;
+	}
+
+	public String getNomeBaseContainer() {
+		return nomeBaseContainer;
+	}
+
+	public void setNomeBaseContainer(String nomeBaseContainer) {
+		this.nomeBaseContainer = nomeBaseContainer;
 	}
 
 	@Override
