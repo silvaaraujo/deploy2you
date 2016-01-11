@@ -1,5 +1,6 @@
 package br.com.silvaaraujo.mb;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.bson.types.ObjectId;
+import org.primefaces.context.RequestContext;
 
 import br.com.silvaaraujo.dao.PublicacaoDAO;
 import br.com.silvaaraujo.entidade.Publicacao;
@@ -76,7 +78,14 @@ public class MBDashboard implements Serializable {
 		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String publicacaoId = String.valueOf(params.get("id"));
 		Publicacao publicacao = this.publicacaoDAO.findById(publicacaoId);
-		this.docker.starContainer(publicacao.getContainer());
+		
+		try {
+			this.docker.startContainer(publicacao.getContainer());
+		} catch (IOException e) {
+			RequestContext ctx = RequestContext.getCurrentInstance();
+			ctx.execute("alerta.erro('Erro ao iniciar container, favor informar a administração do sistema.');");
+			return;
+		}
 	}
 	
 	public void stopContainer() {

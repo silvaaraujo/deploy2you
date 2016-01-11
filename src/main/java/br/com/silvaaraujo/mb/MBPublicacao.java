@@ -92,7 +92,7 @@ public class MBPublicacao implements Serializable {
 		ctx.execute("alerta.sucesso('Publicação efetuada com sucesso!');");
 	}
 	
-	public void createContainer(Publicacao publicacao, Projeto projeto) {
+	public void createContainer(Publicacao publicacao, Projeto projeto) throws Exception {
 		this.dockerUtils.createContainer(publicacao, projeto);
 	}
 

@@ -14,21 +14,22 @@ public class DockerUtils {
 	 * Metodo responsavel por criar, iniciar e publicar a tag informada na publicacao
 	 * @param publicacao
 	 * @param projeto
+	 * @throws Exception 
 	 */
-	public void createContainer(Publicacao publicacao, Projeto projeto) {
+	public void createContainer(Publicacao publicacao, Projeto projeto) throws Exception {
 		try {
-			//this.runContainer(projeto, publicacao);
-			//executeScript(projeto, publicacao);
-			
 			//criando o commando de criacao do container
 			String dockerCommand = this.createCommand(projeto, publicacao);
 			System.out.println(dockerCommand);
+			
+			//criando e iniciando o container
+			new LocalShellUtils().executarComando(dockerCommand);
 			
 			//executando o comando para criar o container
 			//new LocalShellUtils().executarComando(reportNameContainer(dockerCommand, publicacao.getContainer()));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
 	}
 	
@@ -52,17 +53,14 @@ public class DockerUtils {
 		thread.start();
 	}
 
-	
-	private String reportNameContainer(String dockerCommand, String nameContainer) {
-		return dockerCommand.replace("[nameContainer]", nameContainer);
-	}
-	
-	public void starContainer(String nameContainer) {
+	public void startContainer(String nameContainer) throws IOException {
 		LocalShellUtils bash = new LocalShellUtils();
 		try {
 			bash.executarComando("docker start " + nameContainer);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 	
