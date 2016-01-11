@@ -73,6 +73,15 @@ public class DockerUtils {
 		}
 	}
 	
+	public void killContainer(String nameContainer) {
+		LocalShellUtils bash = new LocalShellUtils();
+		try {
+			bash.executarComando("docker kill " + nameContainer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void removeContainer(String nameContainer) {
 		LocalShellUtils bash = new LocalShellUtils();
 		try {

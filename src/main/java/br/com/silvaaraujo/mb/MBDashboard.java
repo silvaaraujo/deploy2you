@@ -68,7 +68,7 @@ public class MBDashboard implements Serializable {
 		
 		Publicacao publicacao = this.publicacaoDAO.findById(this.publicacaoId);
 		
-		this.docker.stopContainer(publicacao.getContainer());
+		this.docker.killContainer(publicacao.getContainer());
 		this.docker.removeContainer(publicacao.getContainer());
 		this.publicacaoDAO.removeById(new ObjectId(this.publicacaoId));
 		limpar();

@@ -81,13 +81,14 @@ public class PublicacaoDAO {
 	
 	public BasicDBObject criarPublicacaoParaGravar(Publicacao publicacao) {
 		BasicDBObject publicacaoParaGravar = new BasicDBObject();
-		publicacaoParaGravar.append("projeto", publicacao.getProjeto());
-		publicacaoParaGravar.append("tag", publicacao.getTag());
-		publicacaoParaGravar.append("url", publicacao.getUrl());
-		publicacaoParaGravar.append("user", publicacao.getUser());
-		publicacaoParaGravar.append("ativo", publicacao.getAtivo());
-		publicacaoParaGravar.append("branch", publicacao.getBranch());
 		publicacaoParaGravar.append("data", publicacao.getData());
+		publicacaoParaGravar.append("user", publicacao.getUser());
+		publicacaoParaGravar.append("url", publicacao.getUrl());
+		publicacaoParaGravar.append("projeto", publicacao.getProjeto());
+		publicacaoParaGravar.append("branch", publicacao.getBranch());
+		publicacaoParaGravar.append("tag", publicacao.getTag());
+		publicacaoParaGravar.append("container", publicacao.getContainer());
+		publicacaoParaGravar.append("ativo", publicacao.getAtivo());
 		publicacaoParaGravar.append("usedPorts", publicacao.getUsedPorts());
 		return publicacaoParaGravar;
 	}
@@ -95,13 +96,14 @@ public class PublicacaoDAO {
 	private Publicacao recuperaPublicacaoMap(Map<?, ?> resultElementMap) {
 		Publicacao publicacao = new Publicacao();
 		publicacao.setId((ObjectId) resultElementMap.get("_id"));
-		publicacao.setProjeto((String) resultElementMap.get("projeto"));
-		publicacao.setTag((String) resultElementMap.get("tag"));
-		publicacao.setUrl((String) resultElementMap.get("url"));
-		publicacao.setUser((String) resultElementMap.get("user"));
-		publicacao.setAtivo((Boolean) resultElementMap.get("ativo"));
-		publicacao.setBranch((String) resultElementMap.get("branch"));
 		publicacao.setData((Date) resultElementMap.get("data"));
+		publicacao.setUser((String) resultElementMap.get("user"));
+		publicacao.setUrl((String) resultElementMap.get("url"));
+		publicacao.setProjeto((String) resultElementMap.get("projeto"));
+		publicacao.setBranch((String) resultElementMap.get("branch"));
+		publicacao.setTag((String) resultElementMap.get("tag"));
+		publicacao.setContainer((String) resultElementMap.get("container"));
+		publicacao.setAtivo((Boolean) resultElementMap.get("ativo"));
 		publicacao.setUsedPorts((List<Integer>) resultElementMap.get("usedPorts"));
 		return publicacao;
 	}
