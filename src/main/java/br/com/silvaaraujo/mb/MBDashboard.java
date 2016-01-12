@@ -74,10 +74,14 @@ public class MBDashboard implements Serializable {
 		limpar();
 	}
 	
-	public void startContainer() {
-		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String publicacaoId = String.valueOf(params.get("id"));
-		Publicacao publicacao = this.publicacaoDAO.findById(publicacaoId);
+	public void start() {
+		if(this.publicacaoId == null) {
+			//nunca deve acontecer
+			return;
+		}
+		
+		Publicacao publicacao = this.publicacaoDAO.findById(this.publicacaoId);
+		this.docker.stopContainer(publicacao.getContainer());
 		
 		try {
 			this.docker.startContainer(publicacao.getContainer());
@@ -88,10 +92,13 @@ public class MBDashboard implements Serializable {
 		}
 	}
 	
-	public void stopContainer() {
-		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String publicacaoId = String.valueOf(params.get("id"));
-		Publicacao publicacao = this.publicacaoDAO.findById(publicacaoId);
+	public void stop() {
+		if(this.publicacaoId == null) {
+			//nunca deve acontecer
+			return;
+		}
+		
+		Publicacao publicacao = this.publicacaoDAO.findById(this.publicacaoId);
 		this.docker.stopContainer(publicacao.getContainer());
 	}
 	

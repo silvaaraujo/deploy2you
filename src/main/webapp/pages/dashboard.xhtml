@@ -14,10 +14,14 @@
         </h1>
         <form jsf:id="form" jsf:prependId="false" class="form-horizontal">
         	
-        	<p:remoteCommand id="rmcRemover" name="rmRemover" actionListener="#{mbDashboard.setPublicacaoId}" />
-        	<p:remoteCommand id="rmcStartContainer" name="rmStartContainer" action="#{mbDashboard.startContainer}"/>
-        	<p:remoteCommand id="rmcStopContainer" name="rmStopContainer" action="#{mbDashboard.stopContainer}"/>
+        	<p:remoteCommand id="rmcRemove" name="rmRemover" actionListener="#{mbDashboard.setPublicacaoId}" />
+        	<p:remoteCommand id="rmcStart" name="rmStart" actionListener="#{mbDashboard.setPublicacaoId}" />
+        	<p:remoteCommand id="rmcStop" name="rmStop" actionListener="#{mbDashboard.setPublicacaoId}" />
+        	
            	<p:remoteCommand id="rmcRemoverConfirma" name="rmConfirmaRemover" actionListener="#{mbDashboard.remover}" update="@form" onsuccess="alerta.sucesso('Publicação removida com sucesso!');" />
+           	<p:remoteCommand id="rmcStopConfirma" name="rmConfirmaStop" actionListener="#{mbDashboard.stop}" update="@form" onsuccess="alerta.sucesso('Publicação pausada com sucesso!');" />
+           	<p:remoteCommand id="rmcStartConfirma" name="rmConfirmaStart" actionListener="#{mbDashboard.start}" update="@form" onsuccess="alerta.sucesso('Publicação iniciada com sucesso!');" />
+           	
            	<p:remoteCommand id="rmcLimpar" name="rmConfirmaLimpar" actionListener="#{mbDashboard.limpar}" />
         
         	<table class="table table-striped">
@@ -43,18 +47,22 @@
         					
         					<button 
         						type="button" 
-        						class="btn btn-success"
+        						class="btn btn-warning"
         						style="font-size: 10px !important;"
-        						onclick="setIdStartContainer('#{e.id}')" >
-        						<span class="glyphicon glyphicon-play" aria-hidden="true" />
+        						data-toggle="modal"
+        						data-target="#dlgStop"
+        						onclick="setIdStopContainer('#{e.id}')">
+        						<span class="glyphicon glyphicon-pause" aria-hidden="true" />
         					</button>
         					
         					<button 
         						type="button" 
-        						class="btn btn-warning"
+        						class="btn btn-success"
         						style="font-size: 10px !important;"
-        						onclick="setIdStopContainer('#{e.id}')" >
-        						<span class="glyphicon glyphicon-pause" aria-hidden="true" />
+        						data-toggle="modal"
+        						data-target="#dlgStart"
+        						onclick="setIdStartContainer('#{e.id}')">
+        						<span class="glyphicon glyphicon-play" aria-hidden="true" />
         					</button>
         					
 	                    </td>
@@ -66,7 +74,7 @@
         		</ui:repeat>
         	</table>
         	
-        	<!-- Modal -->
+        	<!-- Modal Remover -->
 			<div class="modal fade" id="dlgRemocao" tabindex="-1" role="dialog" aria-labelledby="dlgRemocaoLabel">
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
@@ -96,15 +104,77 @@
 			  </div>
 			</div>
 			
+			<!-- Modal Pausar -->
+			<div class="modal fade" id="dlgStop" tabindex="-1" role="dialog" aria-labelledby="dlgStopLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+			        <h4 class="modal-title" id="dlgStopLabel">Confirma pausa?</h4>
+			      </div>
+			      <div class="modal-body">
+			      	Deseja realmente pausar a publicação selecionada?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="submit" 
+			        	class="btn btn-default" 
+			        	data-dismiss="modal"
+			        	onclick="rmConfirmaLimpar();">
+        				Cancelar
+        			</button>
+        				
+			        <button type="submit" 
+			        	class="btn btn-primary"
+			        	data-dismiss="modal"
+			        	onclick="rmConfirmaStop();">
+			        	Confirmar
+			        </button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- Modal Iniciar -->
+			<div class="modal fade" id="dlgStart" tabindex="-1" role="dialog" aria-labelledby="dlgStartLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+			        <h4 class="modal-title" id="dlgStartLabel">Confirma iniciar?</h4>
+			      </div>
+			      <div class="modal-body">
+			      	Deseja realmente iniciar a publicação selecionada?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="submit" 
+			        	class="btn btn-default" 
+			        	data-dismiss="modal"
+			        	onclick="rmConfirmaLimpar();">
+        				Cancelar
+        			</button>
+        				
+			        <button type="submit" 
+			        	class="btn btn-primary"
+			        	data-dismiss="modal"
+						onclick="rmConfirmaStart();">
+			        	Confirmar
+			        </button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
 			<script type="text/javascript">
 				function setIdRemover(id) {
 	       			rmRemover([{name:'id', value:id}]);
 	       		}
-				function setIdStartContainer(id) {
-					rmStartContainer([{name:'id', value:id}]);
-				}
+
 				function setIdStopContainer(id) {
-					rmStopContainer([{name:'id', value:id}]);
+					rmStop([{name:'id', value:id}]);
+				}
+				
+				function setIdStartContainer(id) {
+					rmStart([{name:'id', value:id}]);
 				}
 			</script>
 			
