@@ -112,7 +112,7 @@ public class MBPublicacao implements Serializable {
 		if (valido) {
 			valido = this.validarTag(ctx);
 		}
-
+		
 		return valido;
 	}
 
@@ -275,6 +275,15 @@ public class MBPublicacao implements Serializable {
 		
 		if (!contains) {
 			ctx.execute("alerta.erro('A tag informada não foi encontrada.');");
+			return contains;
+		}
+
+		List<Publicacao> listPublicacoes = this.publicacaoDAO.findAll();
+		for (Publicacao pub : listPublicacoes) {
+			if (pub.getTag().equals(this.publicacao.getTag())) {
+				ctx.execute("alerta.erro('A tag informada já esta publicada.');");
+				return false;
+			}
 		}
 		
 		return contains;
