@@ -19,20 +19,32 @@ public class DockerUtils {
 	public void createContainer(Publicacao publicacao, Projeto projeto) throws Exception {
 		try {
 			//criando o commando de criacao do container
-			String dockerCommand = this.createCommand(projeto, publicacao);
-			//System.out.println(dockerCommand);
+			String dockerCommand = this.createContainerCommand(projeto, publicacao);
+			System.out.println(dockerCommand);
 			
 			//criando e iniciando o container
 			new LocalShellUtils().executarComando(dockerCommand);
 			
+			//criando o comando
+			String scriptCommand = this.createScriptCommand(projeto, publicacao);
+			System.out.println(scriptCommand);
+			
 			//executando o comando para aplicar o script de publicacao
-			//TODO
+			this.executeScript(scriptCommand);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 	
-	private String createCommand(Projeto projeto, Publicacao publicacao) {
+	/**
+	 * Command like:
+	 * docker run -d -p [0]:8443 -p [1]:8080 -p [2]:4848 -v /home/thiago/docker/volumes/dev/workspace/:/opt/temp/workspace --name [containerName] 192.168.41.124:5000/sigs_redeinova
+	 * 
+	 * @param projeto
+	 * @param publicacao
+	 * @return
+	 */
+	private String createContainerCommand(Projeto projeto, Publicacao publicacao) {
 		//trocando o nome da variavel [containerName] pelo nome do container setado dinamicamente na publicacao
 		String dockerCommand = projeto.getComandoDocker().replace("[containerName]", publicacao.getContainer());
 		
@@ -44,10 +56,20 @@ public class DockerUtils {
 		return dockerCommand;
 	}
 	
-	private void executeScript(Projeto projeto, Publicacao publicacao) {
-		PublicacaoUtils publicador = new PublicacaoUtils();
-		publicador.setProjeto(projeto);
-		publicador.setPublicacao(publicacao);
+	/**
+	 * Command like:
+	 * docker exec [containerName] /opt/temp/publicador.sh [tag] sig-tim
+	 * 
+	 * @param projeto
+	 * @param publicacao
+	 * @return
+	 */
+	private String createScriptCommand(Projeto projeto, Publicacao publicacao) {
+		return projeto.getComandoScript().replace("[containerName]", publicacao.getContainer()).replace("[tag]", publicacao.getTag());
+	}
+	
+	private void executeScript(String scriptCommand) {
+		PublicacaoUtils publicador = new PublicacaoUtils(scriptCommand);
 		Thread thread = new Thread(publicador);
 		thread.start();
 	}
