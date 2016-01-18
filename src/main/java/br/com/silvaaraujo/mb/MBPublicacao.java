@@ -249,12 +249,14 @@ public class MBPublicacao implements Serializable {
 	}
 	
 	public boolean validarTag(RequestContext ctx) {
+		//busca o projeto para localizar informações do repositorio git
 		Projeto projeto = this.projetoDAO.findById(this.projectId);
 
 		if (projeto == null || this.configuracao == null) {
 			return false;
 		}
 		
+		//lista as tags remotas do projeto
 		List<String> tags = null;
 		try {
 			 tags = this.gitUtils.getRemoteTags(projeto.getRepositorioGit(), 
@@ -270,17 +272,18 @@ public class MBPublicacao implements Serializable {
 			e.printStackTrace();
 			return false;
 		}
-		
+
+		//valida se existe a tag solicitada para publicacao
 		boolean contains = tags.contains(this.publicacao.getTag());
-		
 		if (!contains) {
 			ctx.execute("alerta.erro('A tag informada não foi encontrada.');");
 			return contains;
 		}
 
+		//valida se a tag a ser aplicada já não esta publicada
 		List<Publicacao> listPublicacoes = this.publicacaoDAO.findAll();
 		for (Publicacao pub : listPublicacoes) {
-			if (pub.getTag().equals(this.publicacao.getTag())) {
+			if (pub.getContainer().equals(projeto.getNomeBaseContainer() + "-" + this.publicacao.getTag())) {
 				ctx.execute("alerta.erro('A tag informada já esta publicada.');");
 				return false;
 			}
